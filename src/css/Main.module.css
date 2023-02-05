@@ -1,0 +1,15 @@
+main {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 70px);
+  margin-left: auto;
+}
+
+.storage {
+  min-width: 15%;
+  /* background-color: green; */
+}
+
+.generator-and-voiceOption {
+  max-width: 20%;
+}
