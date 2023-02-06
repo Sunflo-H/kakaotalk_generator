@@ -3,34 +3,55 @@ import { createContext, useState } from "react";
 export const SSTContext = createContext();
 
 export function SSTProvider({ children }) {
-  const [SST, setSST] = useState({ text, voices, speak_pitch, speak_speed });
-  //   const [input, setInput] = useState(""); // 읽을 텍스트
-  //   const [voices, setVoices] = useState(""); //  읽을 음성
-  //   const [speak_speed, setSpeak_speed] = useState(1); // 읽을 스피드
-  //   const [speak_pitch, setSpeak_pitch] = useState(1); // 읽을 톤
+  const [SST, setSST] = useState({
+    text: "",
+    select_voice_num: 0,
+    speak_pitch: 1,
+    speak_speed: 1,
+  });
+
+  const synth = window.speechSynthesis;
+  const voices = synth.getVoices();
+
+  const speak_test = () => {
+    const { text, select_voice_num, speak_pitch, speak_speed } = SST;
+
+    speechSynthesis.cancel();
+
+    const utterThis = new SpeechSynthesisUtterance(text);
+
+    utterThis.voice = voices[select_voice_num];
+
+    utterThis.pitch = speak_pitch;
+    utterThis.rate = speak_speed;
+
+    synth.speak(utterThis);
+  };
+
+  const speak = (text) => {
+    const { select_voice_num, speak_pitch, speak_speed } = SST;
+
+    const utterThis = new SpeechSynthesisUtterance(text);
+
+    utterThis.voice = voices[select_voice_num];
+
+    utterThis.pitch = speak_pitch;
+    utterThis.rate = speak_speed;
+
+    synth.speak(utterThis);
+  };
 
   return (
     <SSTContext.Provider
       value={{
         SST,
         setSST,
+        speak,
+        speak_test,
+        voices,
       }}
     >
       {children}
     </SSTContext.Provider>
-    // <SSTContext.Provider
-    //   value={{
-    //     input,
-    //     setInput,
-    //     voices,
-    //     setVoices,
-    //     speak_speed,
-    //     setSpeak_speed,
-    //     speak_pitch,
-    //     setSpeak_pitch,
-    //   }}
-    // >
-    //   {children}
-    // </SSTContext.Provider>
   );
 }

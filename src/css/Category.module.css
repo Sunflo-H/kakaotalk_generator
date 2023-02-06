@@ -1,0 +1,16 @@
+.category {
+  display: flex;
+  padding: 10px 14px;
+}
+
+.category div {
+  margin-right: 30px;
+  font-size: 1.1rem;
+  opacity: 0.5;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.category div.active {
+  opacity: 1;
+}

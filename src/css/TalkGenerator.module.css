@@ -1,0 +1,39 @@
+.talk-generators {
+  /* background-color: red; */
+  height: 400px;
+  padding: 0 14px;
+}
+
+.generator {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.237);
+}
+
+.header {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.main {
+}
+
+.main label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.main input {
+  width: 80%;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: var(--input-bg);
+}
+
+button {
+  cursor: pointer;
+}
+
+.icons {
+  font-size: 1.2rem;
+}

@@ -6,10 +6,11 @@ main {
 }
 
 .storage {
-  min-width: 15%;
-  /* background-color: green; */
+  max-width: 240px;
+  min-width: 240px;
 }
 
 .generator-and-voiceOption {
-  max-width: 20%;
+  max-width: 320px;
+  min-width: 320px;
 }
