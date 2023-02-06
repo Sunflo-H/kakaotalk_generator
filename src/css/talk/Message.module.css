@@ -1,0 +1,17 @@
+.message {
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 12px;
+
+  margin-bottom: 5px;
+}
+
+.my-message {
+  background-color: var(--my-message-bg);
+  margin-left: auto;
+}
+
+.other-message {
+  background-color: var(--other-message-bg);
+  margin-right: auto;
+}

@@ -4,10 +4,10 @@ export const MessageContext = createContext();
 
 export function MessageProvider({ children }) {
   const [messages, setMessages] = useState([
-    // { text: "안녕", owner: "mine", image: "" },
-    // { text: "안녕하신가", owner: "other", image: "" },
-    // { text: "안녕하신가", owner: "other", image: "" },
-    // { text: "안녕하신가ㅎㅎ", owner: "other", image: "" },
+    { text: "안녕", owner: "my-message", image: "" },
+    { text: "안녕하신가", owner: "other-message", image: "" },
+    { text: "안녕하신가", owner: "other-message", image: "" },
+    { text: "쿠쿠루삥뽕", owner: "my-message", image: "" },
   ]);
 
   return (
