@@ -9,7 +9,7 @@ export default function TalkMain() {
     <div className={styles["viewer"]}>
       <div className={styles.messages}>
         {messages.map((message, index) => {
-          if (message.owner === "mine") {
+          if (message.owner === "my-message") {
             return (
               <div
                 className={`${styles["my-message"]} ${styles.message}`}
