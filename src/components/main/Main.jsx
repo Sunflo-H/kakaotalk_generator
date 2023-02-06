@@ -7,6 +7,8 @@ import TalkGenerator from "./TalkGenerator";
 import { MessageProvider } from "../../context/MessageContext";
 import Category from "./Category";
 import { SSTProvider } from "../../context/SSTContext";
+import Modal from "./Modal";
+import { PlayStateProvider } from "../../context/PlayStateContext";
 
 export default function Main() {
   const [categoryItem, setCategoryItem] = useState("Talk");
@@ -18,16 +20,24 @@ export default function Main() {
       <Storage />
       <MessageProvider>
         <SSTProvider>
-          <View />
-          <div className={styles["generator-and-voiceOption"]}>
-            <Category
-              categoryItem={categoryItem}
-              setCategoryItem={setCategoryItem}
-            />
-            {categoryItem === "Talk" ? <TalkGenerator /> : <VoiceOption />}
-          </div>
+          <PlayStateProvider>
+            <View />
+            <div className={styles["generator-and-voiceOption"]}>
+              <Category
+                categoryItem={categoryItem}
+                setCategoryItem={setCategoryItem}
+              />
+              {categoryItem === "Talk" ? <TalkGenerator /> : <VoiceOption />}
+            </div>
+            <Modal />
+          </PlayStateProvider>
         </SSTProvider>
       </MessageProvider>
     </main>
   );
 }
+
+/**
+ * 재생
+ * 톡과 보이스 필요
+ */

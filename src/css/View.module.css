@@ -1,4 +1,5 @@
-.generator {
+.view {
+  position: relative;
   flex-grow: 1;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.1);
@@ -6,16 +7,20 @@
   box-sizing: border-box;
 }
 
-.talk {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 50%;
-  height: 100%;
-  margin: auto;
-  background-color: var(--bg);
-  border-radius: 20px 20px 0 0;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.427);
-  overflow: hidden;
+.play {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 20px 20px;
+
+  border-radius: 100px;
+  background-color: white;
+  padding: 5px 10px 2px;
+  box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.472);
+  cursor: pointer;
+}
+
+.play .icon {
+  font-size: 2rem;
+  color: var(--kakao);
 }

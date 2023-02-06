@@ -6,7 +6,7 @@ import { SSTContext } from "../../context/SSTContext";
 
 export default function TalkGenerator() {
   const { messages, setMessages } = useContext(MessageContext);
-  const { speak } = useContext(SSTContext);
+
   const [input_mine, setInput_mine] = useState("");
   const [input_other, setInput_other] = useState("");
 
@@ -20,21 +20,18 @@ export default function TalkGenerator() {
 
   const handleSubmit_mine = (e) => {
     e.preventDefault();
-    setMessages([...messages, { text: input_mine, owner: "mine", image: "" }]);
+    setMessages([
+      ...messages,
+      { text: input_mine, owner: "my-message", image: "" },
+    ]);
   };
 
   const handleSubmit_other = (e) => {
     e.preventDefault();
     setMessages([
       ...messages,
-      { text: input_other, owner: "other", image: "" },
+      { text: input_other, owner: "other-message", image: "" },
     ]);
-  };
-
-  const handleClick = (e) => {
-    messages.forEach((message) => {
-      speak(message.text);
-    });
   };
 
   // 내 기능
@@ -78,7 +75,6 @@ export default function TalkGenerator() {
           {/* <BsCardImage className={styles.icons} /> */}
         </form>
       </div>
-      <div onClick={handleClick}>재생</div>
     </div>
   );
 }
