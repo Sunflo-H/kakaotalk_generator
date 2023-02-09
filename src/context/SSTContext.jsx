@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { MessageContext } from "./MessageContext";
 
 export const SSTContext = createContext();
 
@@ -14,22 +15,9 @@ export function SSTProvider({ children }) {
   const voices = synth.getVoices();
 
   const speak_test = () => {
+    synth.cancel();
+
     const { text, select_voice_num, speak_pitch, speak_speed } = SST;
-
-    speechSynthesis.cancel();
-
-    const utterThis = new SpeechSynthesisUtterance(text);
-
-    utterThis.voice = voices[select_voice_num];
-
-    utterThis.pitch = speak_pitch;
-    utterThis.rate = speak_speed;
-
-    synth.speak(utterThis);
-  };
-
-  const speak = (text) => {
-    const { select_voice_num, speak_pitch, speak_speed } = SST;
 
     const utterThis = new SpeechSynthesisUtterance(text);
 
@@ -46,7 +34,6 @@ export function SSTProvider({ children }) {
       value={{
         SST,
         setSST,
-        speak,
         speak_test,
         voices,
       }}

@@ -8,19 +8,17 @@ import { MessageProvider } from "../../context/MessageContext";
 import Category from "./Category";
 import { SSTProvider } from "../../context/SSTContext";
 import Modal from "./Modal";
-import { PlayStateProvider } from "../../context/PlayStateContext";
+import { TalkPlayerProvider } from "../../context/TalkPlayerContext";
 
 export default function Main() {
   const [categoryItem, setCategoryItem] = useState("Talk");
-  useEffect(() => {
-    console.log(categoryItem);
-  }, [categoryItem]);
+
   return (
     <main>
       <Storage />
-      <MessageProvider>
-        <SSTProvider>
-          <PlayStateProvider>
+      <SSTProvider>
+        <MessageProvider>
+          <TalkPlayerProvider>
             <View />
             <div className={styles["generator-and-voiceOption"]}>
               <Category
@@ -30,9 +28,9 @@ export default function Main() {
               {categoryItem === "Talk" ? <TalkGenerator /> : <VoiceOption />}
             </div>
             <Modal />
-          </PlayStateProvider>
-        </SSTProvider>
-      </MessageProvider>
+          </TalkPlayerProvider>
+        </MessageProvider>
+      </SSTProvider>
     </main>
   );
 }

@@ -3,12 +3,12 @@ import { BsPencil, BsList } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
 import styles from "../../../css/talk/TalkHeader.module.css";
-import { PlayStateContext } from "../../../context/PlayStateContext";
+import { TalkPlayerContext } from "../../../context/TalkPlayerContext";
 
 export default function TalkHeader() {
   const [title, setTitle] = useState("New Title");
   const [title_inputState, setTitle_inputState] = useState(false);
-  const { playState } = useContext(PlayStateContext);
+  const { playState } = useContext(TalkPlayerContext);
 
   if (playState) {
     return (

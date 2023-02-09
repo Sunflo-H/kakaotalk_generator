@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
-import { PlayStateContext } from "../../context/PlayStateContext";
+import { MessageContext } from "../../context/MessageContext";
+import { TalkPlayerContext } from "../../context/TalkPlayerContext";
 import styles from "../../css/Modal.module.css";
 import Talk from "./talk/Talk";
 
 export default function Modal() {
-  const { playState, setPlayState } = useContext(PlayStateContext);
-  console.log(playState);
+  const { playState, stopTalkPlayer } = useContext(TalkPlayerContext);
 
   const closeBtnClick = () => {
-    setPlayState(false);
+    stopTalkPlayer();
   };
   return (
     <div className={`${styles.modal} ${playState ? styles.active : ""}`}>
