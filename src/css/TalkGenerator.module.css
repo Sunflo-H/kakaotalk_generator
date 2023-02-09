@@ -14,26 +14,36 @@
   margin-bottom: 10px;
 }
 
-.main {
+form {
 }
 
-.main label {
-  display: block;
-  margin-bottom: 5px;
+.flex {
+  display: flex;
 }
 
 .main input {
   width: 80%;
   border: none;
   border-radius: 5px;
-  padding: 5px;
   background-color: var(--input-bg);
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
-button {
+.main input[type="text"] {
+  padding: 9px 5px;
+}
+
+.main input[type="file"] {
+  padding: 5px;
+}
+
+.add {
   cursor: pointer;
+  margin-left: 5px;
+  line-height: 30px;
 }
 
 .icons {
-  font-size: 1.2rem;
+  font-size: 2rem;
 }
