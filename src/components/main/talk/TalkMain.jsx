@@ -8,7 +8,6 @@ import Message from "./Message";
 export default function TalkMain() {
   const { isPlay } = useContext(TalkPlayerContext);
   const { messages, messages_to_play } = useContext(MessageContext);
-  console.log(messages_to_play);
 
   if (isPlay) {
     return (

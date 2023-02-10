@@ -1,4 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "../../../css/talk/Message.module.css";
 import { IoClose, IoCheckmarkSharp } from "react-icons/io5";
 import { MessageContext } from "../../../context/MessageContext";
@@ -10,19 +16,17 @@ export default function Message({ message, index }) {
   const [isUpdate, setIsUpdate] = useState(false);
   const [input, setInput] = useState(text);
 
-  /**
-   * 메세지를 클릭하면 수정 상태가 된다.
-   * 수정상태 : 메세지가 <input>이 되며 삭제버튼이 나온다.
-   *
-   * 수정상태를 언제 어떻게 풀리게 해주지? : 엔터키나 다른걸 누르면
-   *
-   */
+  const messageInput = useRef();
 
   const handleClick = (e) => {
     setIsUpdate(true);
-    e.currentTarget.focus();
-    console.log(e.currentTarget);
+
+    console.log(messageInput);
   };
+
+  useEffect(() => {
+    messageInput.current && messageInput.current.focus();
+  });
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -53,6 +57,7 @@ export default function Message({ message, index }) {
           onChange={handleChange}
           className={`${styles[owner]} ${styles.message} ${styles.input}`}
           onKeyDown={handleKeyDown}
+          ref={messageInput}
         />
       ) : (
         <div
