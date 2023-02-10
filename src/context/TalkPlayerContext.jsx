@@ -5,7 +5,7 @@ import { SSTContext } from "./SSTContext";
 export const TalkPlayerContext = createContext();
 
 export function TalkPlayerProvider({ children }) {
-  const [playState, setPlayState] = useState(false);
+  const [isPlay, setIsPlay] = useState(false);
   const { messages, fillMessages_to_play, resetMessages_to_play } =
     useContext(MessageContext);
   const { SST } = useContext(SSTContext);
@@ -40,7 +40,7 @@ export function TalkPlayerProvider({ children }) {
   };
 
   const startTalkPlayer = () => {
-    setPlayState(true);
+    setIsPlay(true);
 
     let count = 0;
     playTalk_oneMessage(messages, count);
@@ -48,14 +48,14 @@ export function TalkPlayerProvider({ children }) {
 
   const stopTalkPlayer = () => {
     synth.cancel();
-    setPlayState(false);
+    setIsPlay(false);
     resetMessages_to_play();
   };
 
   return (
     <TalkPlayerContext.Provider
       value={{
-        playState,
+        isPlay,
         startTalkPlayer,
         stopTalkPlayer,
       }}
