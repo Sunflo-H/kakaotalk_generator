@@ -6,10 +6,11 @@ import styles from "../../../css/talk/TalkMain.module.css";
 import Message from "./Message";
 
 export default function TalkMain() {
-  const { playState } = useContext(TalkPlayerContext);
+  const { isPlay } = useContext(TalkPlayerContext);
   const { messages, messages_to_play } = useContext(MessageContext);
+  console.log(messages_to_play);
 
-  if (playState) {
+  if (isPlay) {
     return (
       <div className={styles["viewer"]}>
         <div className={styles.messages}>

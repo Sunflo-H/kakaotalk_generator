@@ -31,7 +31,7 @@ export default function Message({ message, index }) {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       setIsUpdate(false);
-      onUpdateMessage();
+      onUpdateMessage(id, input);
     }
   };
 
