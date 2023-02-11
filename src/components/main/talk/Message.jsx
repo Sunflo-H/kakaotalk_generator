@@ -8,6 +8,7 @@ import React, {
 import styles from "../../../css/talk/Message.module.css";
 import { IoClose, IoCheckmarkSharp } from "react-icons/io5";
 import { MessageContext } from "../../../context/MessageContext";
+import useFocus from "../../../hooks/useFocus";
 
 export default function Message({ message, index }) {
   const { text, owner, image, id } = message;
@@ -15,18 +16,12 @@ export default function Message({ message, index }) {
   const { onRemoveMessage, onUpdateMessage } = useContext(MessageContext);
   const [isUpdate, setIsUpdate] = useState(false);
   const [input, setInput] = useState(text);
-
-  const messageInput = useRef();
+  const { ref: focus_ref, setIsFocused } = useFocus(false);
 
   const handleClick = (e) => {
     setIsUpdate(true);
-
-    console.log(messageInput);
+    setIsFocused(true);
   };
-
-  useEffect(() => {
-    messageInput.current && messageInput.current.focus();
-  });
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -57,7 +52,7 @@ export default function Message({ message, index }) {
           onChange={handleChange}
           className={`${styles[owner]} ${styles.message} ${styles.input}`}
           onKeyDown={handleKeyDown}
-          ref={messageInput}
+          ref={focus_ref}
         />
       ) : (
         <div
