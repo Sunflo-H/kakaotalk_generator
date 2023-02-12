@@ -9,17 +9,32 @@ export default function TalkGenerator() {
   const { addMessage } = useContext(MessageContext);
 
   const [inputs, setInputs] = useState({ mine: "", other: "" });
+  const [images, setImages] = useState({ mine: "", other: "" });
 
-  const handleChange = (e) => {
+  const handleInputTextChange = (e) => {
     const owner = e.target.dataset.owner;
     setInputs({ ...inputs, [owner]: e.target.value });
   };
 
-  const handleClick = (e) => {
+  const handleInputImageChange = (e) => {
+    const owner = e.target.dataset.owner;
+    setImages({ ...images, [owner]: e.target.value });
+  };
+
+  const handleAddMessageBtnClick = (e) => {
     const owner = e.currentTarget.dataset.owner;
     const text = inputs[owner];
-    addMessage(text, owner);
+    const type = "text";
+    addMessage(text, owner, type);
     setInputs({ ...inputs, [owner]: "" });
+  };
+
+  const handleAddImageBtnClick = (e) => {
+    const owner = e.currentTarget.dataset.owner;
+    const image = images[owner];
+    const type = "image";
+    addMessage(image, owner, type);
+    setImages({ ...images, [owner]: "" });
   };
 
   const handleKeyDown = (e) => {
@@ -44,24 +59,31 @@ export default function TalkGenerator() {
               placeholder="메세지 입력"
               value={inputs.mine}
               data-owner="mine"
-              onChange={handleChange}
+              onChange={handleInputTextChange}
               onKeyDown={handleKeyDown}
             />
             <button
               className={styles.add}
               data-owner="mine"
-              onClick={handleClick}
+              onClick={handleAddMessageBtnClick}
             >
               <BiMessageRoundedAdd className={styles.icons} />
             </button>
           </div>
+
           <label htmlFor="my_image">Image</label>
           <div className={styles.flex}>
-            <input type="file" id="my_image" data-owner="mine" />
+            <input
+              type="file"
+              id="my_image"
+              data-owner="mine"
+              value={images.mine}
+              onChange={handleInputImageChange}
+            />
             <button
               className={styles.add}
               data-owner="mine"
-              onClick={handleClick}
+              onClick={handleAddImageBtnClick}
             >
               <MdAddPhotoAlternate className={styles.icons} />
             </button>
@@ -80,21 +102,31 @@ export default function TalkGenerator() {
               placeholder="메세지 입력"
               value={inputs.other}
               data-owner="other"
-              onChange={handleChange}
+              onChange={handleInputTextChange}
               onKeyDown={handleKeyDown}
             />
             <button
               className={styles.add}
               data-owner="other"
-              onClick={handleClick}
+              onClick={handleAddMessageBtnClick}
             >
               <BiMessageRoundedAdd className={styles.icons} />
             </button>
           </div>
           <label htmlFor="other_image">Image</label>
           <div className={styles.flex}>
-            <input type="file" id="other_image" data-owner="other" />
-            <button className={styles.add} data-owner="other">
+            <input
+              type="file"
+              id="other_image"
+              data-owner="other"
+              value={images.other}
+              onChange={handleInputImageChange}
+            />
+            <button
+              className={styles.add}
+              data-owner="other"
+              onClick={handleAddImageBtnClick}
+            >
               <MdAddPhotoAlternate className={styles.icons} />
             </button>
           </div>

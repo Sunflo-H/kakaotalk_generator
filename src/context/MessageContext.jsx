@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const MessageContext = createContext();
 
@@ -16,10 +16,29 @@ export function MessageProvider({ children }) {
   ]);
   const [messages_to_play, setMessages_to_play] = useState("");
 
-  const addMessage = (text, owner) => {
-    setMessages([...messages, { id: id, text: text, owner: owner, image: "" }]);
+  const addMessage = (data, owner, type) => {
+    if (type === "text") {
+      const text = data;
+      setMessages([
+        ...messages,
+        { id: id, text: text, owner: owner, image: "" },
+      ]);
+    } else {
+      const image = data;
+      setMessages([
+        ...messages,
+        { id: id, text: "", owner: owner, image: image },
+      ]);
+    }
     setId(id + 1);
   };
+
+  useEffect(() => {
+    console.log(messages);
+    return () => {
+      console.log(messages);
+    };
+  }, [messages]);
 
   const removeMessage = (id) => {
     let confirm = window.confirm("정말 삭제하시겠습니까?");
