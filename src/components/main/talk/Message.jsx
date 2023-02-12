@@ -13,13 +13,13 @@ import useFocus from "../../../hooks/useFocus";
 export default function Message({ message, index }) {
   const { text, owner, image, id } = message;
 
-  const { onRemoveMessage, onUpdateMessage } = useContext(MessageContext);
-  const [isUpdate, setIsUpdate] = useState(false);
+  const { removeMessage, updateMessage } = useContext(MessageContext);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [input, setInput] = useState(text);
   const { ref: focus_ref, setIsFocused } = useFocus(false);
 
-  const handleClick = (e) => {
-    setIsUpdate(true);
+  const handleMessageClick = (e) => {
+    setIsUpdating(true);
     setIsFocused(true);
   };
 
@@ -29,55 +29,53 @@ export default function Message({ message, index }) {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      setIsUpdate(false);
-      onUpdateMessage(id, input);
+      setIsUpdating(false);
+      updateMessage(id, input);
     }
   };
 
-  const onUpdate = (e) => {
-    onUpdateMessage(id, input);
-    setIsUpdate(false);
+  const handleUpdateClick = (e) => {
+    updateMessage(id, input);
+    setIsUpdating(false);
   };
-  const onRemove = (e) => {
-    onRemoveMessage(id);
-    setIsUpdate(false);
+
+  const handleRemoveClick = (e) => {
+    removeMessage(id);
+    setIsUpdating(false);
   };
 
   return (
     <div className={styles["message-box"]}>
-      {isUpdate ? (
-        <input
-          type="text"
-          value={input}
-          onChange={handleChange}
-          className={`${styles[owner]} ${styles.message} ${styles.input}`}
-          onKeyDown={handleKeyDown}
-          ref={focus_ref}
-        />
-      ) : (
-        <div
-          className={`${styles[owner]} ${styles.message}`}
-          onClick={handleClick}
-        >
-          {text}
-        </div>
-      )}
-
-      {isUpdate && (
+      {isUpdating ? (
         <>
+          <input
+            type="text"
+            value={input}
+            onChange={handleChange}
+            className={`${styles[owner]} ${styles.message} ${styles.input}`}
+            onKeyDown={handleKeyDown}
+            ref={focus_ref}
+          />
           <div
             className={`${styles["btn"]} ${styles["confirm"]}`}
-            onClick={onUpdate}
+            onClick={handleUpdateClick}
           >
             <IoCheckmarkSharp />
           </div>
           <div
             className={`${styles["btn"]} ${styles["remove"]}`}
-            onClick={onRemove}
+            onClick={handleRemoveClick}
           >
             <IoClose />
           </div>
         </>
+      ) : (
+        <div
+          className={`${styles[owner]} ${styles.message}`}
+          onClick={handleMessageClick}
+        >
+          {text}
+        </div>
       )}
     </div>
   );

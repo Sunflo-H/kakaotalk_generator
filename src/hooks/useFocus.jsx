@@ -20,8 +20,10 @@ export default function useFocus(defaultFocused = false) {
     ref.current.addEventListener("blur", onBlur);
 
     return () => {
-      ref.current.removeEventListener("focus", onFocus);
-      ref.current.removeEventListener("blur", onBlur);
+      if (ref.current !== null) {
+        ref.current.removeEventListener("focus", onFocus);
+        ref.current.removeEventListener("blur", onBlur);
+      }
     };
   }, [isFocused]);
 

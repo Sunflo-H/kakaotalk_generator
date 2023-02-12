@@ -6,7 +6,7 @@ import { MessageContext } from "../../context/MessageContext";
 import { BsCheckLg } from "react-icons/bs";
 
 export default function TalkGenerator() {
-  const { onAddMessage } = useContext(MessageContext);
+  const { addMessage } = useContext(MessageContext);
 
   const [inputs, setInputs] = useState({ mine: "", other: "" });
 
@@ -18,7 +18,7 @@ export default function TalkGenerator() {
   const handleClick = (e) => {
     const owner = e.currentTarget.dataset.owner;
     const text = inputs[owner];
-    onAddMessage(text, owner);
+    addMessage(text, owner);
     setInputs({ ...inputs, [owner]: "" });
   };
 
@@ -26,7 +26,7 @@ export default function TalkGenerator() {
     const owner = e.currentTarget.dataset.owner;
     const text = inputs[owner];
     if (e.key === "Enter") {
-      onAddMessage(text, owner);
+      addMessage(text, owner);
       setInputs({ ...inputs, [owner]: "" });
     }
   };
