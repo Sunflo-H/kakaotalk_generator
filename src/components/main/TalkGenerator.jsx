@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styles from "../../css/TalkGenerator.module.css";
 import { BiMessageRoundedAdd } from "react-icons/bi";
 import { MdAddPhotoAlternate } from "react-icons/md";
@@ -16,9 +16,22 @@ export default function TalkGenerator() {
     setInputs({ ...inputs, [owner]: e.target.value });
   };
 
+  // 이때 이미지파일을 파일리더로 읽은 결과를 담는다.
+  /**
+   * 1. input에 이미지를 업로드
+   * 2. 업로드한 파일의 정보를 변수에 담는다. file =  e.target.files[0];
+   * 3. 파일 리더 생성 const reader = new FileReader();
+   * 4. 파일리더의 url에 파일정보를 담는다. readAsDataURL(file)
+   * 5. 리더가 로드되면 reader.result를 img의 src로 입력
+   */
   const handleInputImageChange = (e) => {
     const owner = e.target.dataset.owner;
-    setImages({ ...images, [owner]: e.target.value });
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImages({ ...images, [owner]: reader.result });
+    };
   };
 
   const handleAddMessageBtnClick = (e) => {
@@ -70,14 +83,13 @@ export default function TalkGenerator() {
               <BiMessageRoundedAdd className={styles.icons} />
             </button>
           </div>
-
           <label htmlFor="my_image">Image</label>
           <div className={styles.flex}>
             <input
               type="file"
+              accept="image/*"
               id="my_image"
               data-owner="mine"
-              value={images.mine}
               onChange={handleInputImageChange}
             />
             <button
@@ -90,7 +102,6 @@ export default function TalkGenerator() {
           </div>
         </div>
       </div>
-
       <div className={styles.generator}>
         <div className={styles["header"]}>Other Talk</div>
         <div className={styles.main}>
@@ -117,9 +128,9 @@ export default function TalkGenerator() {
           <div className={styles.flex}>
             <input
               type="file"
+              accept="image/*"
               id="other_image"
               data-owner="other"
-              value={images.other}
               onChange={handleInputImageChange}
             />
             <button

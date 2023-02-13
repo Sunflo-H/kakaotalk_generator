@@ -10,20 +10,20 @@ import { IoClose, IoCheckmarkSharp } from "react-icons/io5";
 import { MessageContext } from "../../../context/MessageContext";
 import useFocus from "../../../hooks/useFocus";
 
-export default function Message({ message, index }) {
+export default function Message({ message }) {
   const { text, owner, image, id } = message;
 
   const { removeMessage, updateMessage } = useContext(MessageContext);
   const [isUpdating, setIsUpdating] = useState(false);
   const [input, setInput] = useState(text);
-  const { ref: focus_ref, setIsFocused } = useFocus(false);
+  const { ref: focusRef, setIsFocused } = useFocus(false);
 
   const handleMessageClick = (e) => {
     setIsUpdating(true);
     setIsFocused(true);
   };
 
-  const handleChange = (e) => {
+  const handleInputTextChange = (e) => {
     setInput(e.target.value);
   };
 
@@ -51,10 +51,10 @@ export default function Message({ message, index }) {
           <input
             type="text"
             value={input}
-            onChange={handleChange}
+            onChange={handleInputTextChange}
             className={`${styles[owner]} ${styles.message} ${styles.input}`}
             onKeyDown={handleKeyDown}
-            ref={focus_ref}
+            ref={focusRef}
           />
           <div
             className={`${styles["btn"]} ${styles["confirm"]}`}
@@ -70,12 +70,22 @@ export default function Message({ message, index }) {
           </div>
         </>
       ) : (
-        <div
-          className={`${styles[owner]} ${styles.message}`}
-          onClick={handleMessageClick}
-        >
-          {text}
-        </div>
+        <>
+          {image === "" ? (
+            <div
+              className={`${styles[owner]} ${styles.message}`}
+              onClick={handleMessageClick}
+            >
+              {text}
+            </div>
+          ) : (
+            <img
+              className={`${styles[owner]} ${styles.image}`}
+              src={image}
+              alt={image}
+            />
+          )}
+        </>
       )}
     </div>
   );

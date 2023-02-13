@@ -34,10 +34,7 @@ export function MessageProvider({ children }) {
   };
 
   useEffect(() => {
-    console.log(messages);
-    return () => {
-      console.log(messages);
-    };
+    // console.log(messages);
   }, [messages]);
 
   const removeMessage = (id) => {

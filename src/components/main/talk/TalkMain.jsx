@@ -9,25 +9,24 @@ export default function TalkMain() {
   const { isPlay } = useContext(TalkPlayerContext);
   const { messages, messages_to_play } = useContext(MessageContext);
 
-  if (isPlay) {
-    return (
-      <div className={styles["viewer"]}>
-        <div className={styles.messages}>
-          {messages_to_play &&
-            messages_to_play.map((message, index) => {
-              return <Message message={message} key={index} />;
-            })}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles["viewer"]}>
       <div className={styles.messages}>
-        {messages.map((message, index) => {
-          return <Message message={message} key={index} />;
-        })}
+        {isPlay ? (
+          <>
+            {messages_to_play &&
+              messages_to_play.map((message, index) => {
+                return <Message message={message} key={index} />;
+              })}
+          </>
+        ) : (
+          <>
+            {messages &&
+              messages.map((message, index) => {
+                return <Message message={message} key={index} />;
+              })}
+          </>
+        )}
       </div>
     </div>
   );
