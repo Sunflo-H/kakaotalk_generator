@@ -1,9 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useId, useState } from "react";
 
 export const MessageContext = createContext();
 
 export function MessageProvider({ children }) {
-  const [id, setId] = useState(1);
+  const [id, setNextId] = useId();
   const [messages, setMessages] = useState([
     {
       text: "안녕안녕안녕안녕",
@@ -30,7 +30,7 @@ export function MessageProvider({ children }) {
         { id: id, text: "", owner: owner, image: image },
       ]);
     }
-    setId(id + 1);
+    setNextId();
   };
 
   useEffect(() => {

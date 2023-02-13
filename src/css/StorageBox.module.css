@@ -1,0 +1,70 @@
+.storage-box {
+  max-width: 320px;
+  min-width: 320px;
+  padding: 0 20px;
+}
+
+.header {
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.header span {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.icon-box {
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+
+  border-radius: 100%;
+}
+
+.icon {
+  margin: auto;
+  font-size: 1.9rem;
+}
+
+.icon-box:hover {
+  background-color: var(--input-bg);
+  cursor: pointer;
+}
+
+.main {
+  width: 100%;
+}
+
+.storage {
+  display: flex;
+  line-height: 30px;
+  padding: 10px 30px 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-bottom: 2px;
+}
+
+.storage.active {
+  background-color: var(--input-bg);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.storage .icon {
+  margin: auto;
+  font-size: 1.9rem;
+}
+
+.storage .icon-box {
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+
+  border-radius: 100%;
+}

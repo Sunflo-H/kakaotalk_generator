@@ -5,11 +5,6 @@ main {
   margin-left: auto;
 }
 
-.storage {
-  max-width: 240px;
-  min-width: 240px;
-}
-
 .generator-and-voiceOption {
   max-width: 320px;
   min-width: 320px;

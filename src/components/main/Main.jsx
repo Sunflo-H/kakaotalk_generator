@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import VoiceOption from "./VoiceOption";
-import Storage from "./Storage";
 import View from "./View";
 import styles from "../../css/Main.module.css";
 import TalkGenerator from "./TalkGenerator";
@@ -9,13 +8,14 @@ import Category from "./Category";
 import { SSTProvider } from "../../context/SSTContext";
 import Modal from "./Modal";
 import { TalkPlayerProvider } from "../../context/TalkPlayerContext";
+import StorageBox from "./storage/StorageBox";
 
 export default function Main() {
   const [categoryItem, setCategoryItem] = useState("Talk");
 
   return (
     <main>
-      <Storage />
+      <StorageBox />
       <SSTProvider>
         <MessageProvider>
           <TalkPlayerProvider>
