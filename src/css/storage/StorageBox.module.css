@@ -37,34 +37,3 @@
 .main {
   width: 100%;
 }
-
-.storage {
-  display: flex;
-  line-height: 30px;
-  padding: 10px 30px 10px 20px;
-  cursor: pointer;
-  border-radius: 10px;
-  margin-bottom: 2px;
-}
-
-.storage.active {
-  background-color: var(--input-bg);
-}
-
-.title {
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.storage .icon {
-  margin: auto;
-  font-size: 1.9rem;
-}
-
-.storage .icon-box {
-  margin-left: auto;
-  width: 30px;
-  height: 30px;
-
-  border-radius: 100%;
-}

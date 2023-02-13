@@ -1,5 +1,5 @@
 import React, { useId, useState } from "react";
-import styles from "../../../css/StorageBox.module.css";
+import styles from "../../../css/storage/StorageBox.module.css";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import Storage from "./Storage";
 
