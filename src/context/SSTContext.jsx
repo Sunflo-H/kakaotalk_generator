@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { MessageContext } from "./MessageContext";
+import { MessageContext } from "./TalkContext";
 
 export const SSTContext = createContext();
 

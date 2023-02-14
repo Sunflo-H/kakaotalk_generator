@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "../../../css/storage/Storage.module.css";
 import { FiMinus } from "react-icons/fi";
+import { MessageContext, TalkContext } from "../../../context/TalkContext";
 
-export default function Storage({
+export default function TalkStorage({
   storage,
   storageList,
   setStorageList,
@@ -11,6 +12,8 @@ export default function Storage({
 }) {
   const { title, id } = storage;
   const [input, setInput] = useState(title);
+
+  const { talkList, activatedTalkId } = useContext(MessageContext);
 
   const handleRemoveIconClick = () => {
     setStorageList(storageList.filter((storage) => storage.id !== id));

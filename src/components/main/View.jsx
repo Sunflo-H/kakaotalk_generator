@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "../../css/View.module.css";
 import { BsPlayCircleFill } from "react-icons/bs";
-import { MessageContext } from "../../context/MessageContext";
+import { MessageContext } from "../../context/TalkContext";
 import Talk from "./talk/Talk";
 import { TalkPlayerContext } from "../../context/TalkPlayerContext";
 

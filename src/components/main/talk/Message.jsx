@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import styles from "../../../css/talk/Message.module.css";
 import { IoClose, IoCheckmarkSharp } from "react-icons/io5";
-import { MessageContext } from "../../../context/MessageContext";
+import { MessageContext } from "../../../context/TalkContext";
 import useFocus from "../../../hooks/useFocus";
 
 export default function Message({ message }) {

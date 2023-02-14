@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import VoiceOption from "./VoiceOption";
 import View from "./View";
 import styles from "../../css/Main.module.css";
 import TalkGenerator from "./TalkGenerator";
-import { MessageProvider } from "../../context/MessageContext";
+import { TalkProvider } from "../../context/TalkContext";
 import Category from "./Category";
 import { SSTProvider } from "../../context/SSTContext";
 import Modal from "./Modal";
@@ -15,9 +15,9 @@ export default function Main() {
 
   return (
     <main>
-      <StorageBox />
-      <SSTProvider>
-        <MessageProvider>
+      <TalkProvider>
+        <StorageBox />
+        <SSTProvider>
           <TalkPlayerProvider>
             <View />
             <div className={styles["generator-and-voiceOption"]}>
@@ -29,13 +29,18 @@ export default function Main() {
             </div>
             <Modal />
           </TalkPlayerProvider>
-        </MessageProvider>
-      </SSTProvider>
+        </SSTProvider>
+      </TalkProvider>
     </main>
   );
 }
 
 /**
- * 재생
- * 톡과 보이스 필요
+ * 저장소 (타이틀, id, message들)
+ * 메세지는 메세지 컨텍스트
+ * 메세지들을 저장소에 종속시킨다.
+ *
+ *
+ * MessageContext 메세지들이 있어 , 하나의 Talk에 대한 메세지들
+ * 저장소에는 Talk이 있어야되지? 메세지들이 Talk야 따라서 Messages만 있어도 돼
  */

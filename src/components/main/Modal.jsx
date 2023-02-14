@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MessageContext } from "../../context/MessageContext";
+import { MessageContext } from "../../context/TalkContext";
 import { TalkPlayerContext } from "../../context/TalkPlayerContext";
 import styles from "../../css/Modal.module.css";
 import Talk from "./talk/Talk";
