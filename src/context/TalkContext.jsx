@@ -117,6 +117,21 @@ export function TalkProvider({ children }) {
     setTalkList(talkList.filter((talk) => talk.id !== id));
   };
 
+  const updateTalkTitle = (id, title) => {
+    console.log(id, title);
+    setTalkList(
+      talkList.map((talk) => {
+        // (talk.id === id ? (talk.title = title) : talk)
+
+        if (talk.id === id) {
+          talk.title = title;
+        }
+
+        return talk;
+      })
+    );
+  };
+
   const activateTalk = (id) => {
     setCurrentTalkId(id);
   };
@@ -131,6 +146,7 @@ export function TalkProvider({ children }) {
         getCurrentTalkMessages,
         createTalk,
         removeTalk,
+        updateTalkTitle,
         activateTalk,
         // messages,
         // setMessages,

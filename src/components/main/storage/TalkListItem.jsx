@@ -6,7 +6,7 @@ import { TalkContext } from "../../../context/TalkContext";
 export default function TalkListItem({ talk }) {
   const { title, id } = talk;
   const [input, setInput] = useState(title);
-  const { removeTalk, activateTalk, currentTalkId, setCurrentTalkId } =
+  const { removeTalk, activateTalk, updateTalkTitle, currentTalkId } =
     useContext(TalkContext);
 
   const handleRemoveIconClick = (e) => {
@@ -19,9 +19,16 @@ export default function TalkListItem({ talk }) {
     activateTalk(id);
   };
 
-  /**
-   * * talk가 활성화 되었을때만! title을 클릭시 수정할수 있게 해줘
-   */
+  const handleChange = (e) => {
+    setInput(e.target.value);
+    updateTalkTitle(id, input);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.target.blur();
+    }
+  };
 
   return (
     <div
@@ -30,13 +37,13 @@ export default function TalkListItem({ talk }) {
       }`}
       onClick={handleTalkItemClick}
     >
-      {/* <span className={styles.title}>{title}</span> */}
       {id === currentTalkId ? (
         <input
-          className={styles.input1}
+          className={styles.input}
           type="text"
           value={input}
-          onChange={setInput}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
       ) : (
         <span className={styles.title}>{title}</span>
