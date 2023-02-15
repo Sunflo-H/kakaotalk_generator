@@ -1,13 +1,18 @@
 import { createContext, useContext, useState } from "react";
-import { MessageContext } from "./TalkContext";
+import { TalkContext } from "./TalkContext";
 import { SSTContext } from "./SSTContext";
 
 export const TalkPlayerContext = createContext();
 
 export function TalkPlayerProvider({ children }) {
   const [isPlay, setIsPlay] = useState(false);
-  const { messages, fillMessages_to_play, resetMessages_to_play } =
-    useContext(MessageContext);
+  const {
+    talkList,
+    getCurrentTalkMessages,
+    messages,
+    fillMessages_for_playback,
+    resetMessages_for_playback,
+  } = useContext(TalkContext);
   const { SST } = useContext(SSTContext);
 
   const synth = window.speechSynthesis;
@@ -16,7 +21,7 @@ export function TalkPlayerProvider({ children }) {
   const playTalk_oneMessage = (messages, count) => {
     synth.cancel();
     const { select_voice_num, speak_pitch, speak_speed } = SST;
-
+    console.log(messages);
     const utterThis = new SpeechSynthesisUtterance(messages[count].text);
 
     utterThis.voice = voices[select_voice_num];
@@ -25,11 +30,11 @@ export function TalkPlayerProvider({ children }) {
 
     if (count === 0) {
       setTimeout(() => {
-        fillMessages_to_play(messages[count]);
+        fillMessages_for_playback(messages[count]);
         synth.speak(utterThis);
       }, 500);
     } else {
-      fillMessages_to_play(messages[count]);
+      fillMessages_for_playback(messages[count]);
       synth.speak(utterThis);
     }
 
@@ -42,14 +47,16 @@ export function TalkPlayerProvider({ children }) {
   const startTalkPlayer = () => {
     setIsPlay(true);
 
-    let count = 0;
+    const count = 0;
+    const messages = getCurrentTalkMessages();
+
     playTalk_oneMessage(messages, count);
   };
 
   const stopTalkPlayer = () => {
     synth.cancel();
     setIsPlay(false);
-    resetMessages_to_play();
+    resetMessages_for_playback();
   };
 
   return (

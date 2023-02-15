@@ -1,4 +1,4 @@
-.storage {
+.talk-list-item {
   display: flex;
   line-height: 30px;
   padding: 10px 30px 10px 20px;
@@ -7,7 +7,7 @@
   margin-bottom: 2px;
 }
 
-.storage.active {
+.talk-list-item.active {
   background-color: var(--input-bg);
 }
 
@@ -16,15 +16,24 @@
   font-size: 1rem;
 }
 
-.storage .icon {
-  margin: auto;
-  font-size: 1.9rem;
-}
-
-.storage .icon-box {
+.icon-box {
+  display: none;
   margin-left: auto;
   width: 30px;
   height: 30px;
-
   border-radius: 100%;
+}
+
+.icon-box:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+  cursor: pointer;
+}
+
+.talk-list-item.active .icon-box {
+  display: block;
+}
+
+.icon {
+  margin: auto;
+  font-size: 1.9rem;
 }

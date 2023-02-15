@@ -7,13 +7,13 @@ import React, {
 } from "react";
 import styles from "../../../css/talk/Message.module.css";
 import { IoClose, IoCheckmarkSharp } from "react-icons/io5";
-import { MessageContext } from "../../../context/TalkContext";
+import { TalkContext } from "../../../context/TalkContext";
 import useFocus from "../../../hooks/useFocus";
 
 export default function Message({ message }) {
   const { text, owner, image, id } = message;
 
-  const { removeMessage, updateMessage } = useContext(MessageContext);
+  const { removeMessage, updateMessage } = useContext(TalkContext);
   const [isUpdating, setIsUpdating] = useState(false);
   const [input, setInput] = useState(text);
   const { ref: focusRef, setIsFocused } = useFocus(false);

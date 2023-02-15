@@ -2,11 +2,11 @@ import React, { useContext, useRef, useState } from "react";
 import styles from "../../css/TalkGenerator.module.css";
 import { BiMessageRoundedAdd } from "react-icons/bi";
 import { MdAddPhotoAlternate } from "react-icons/md";
-import { MessageContext } from "../../context/TalkContext";
+import { TalkContext } from "../../context/TalkContext";
 import { BsCheckLg } from "react-icons/bs";
 
 export default function TalkGenerator() {
-  const { addMessage } = useContext(MessageContext);
+  const { addMessage } = useContext(TalkContext);
 
   const [inputs, setInputs] = useState({ mine: "", other: "" });
   const [images, setImages] = useState({ mine: "", other: "" });
