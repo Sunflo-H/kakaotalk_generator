@@ -16,6 +16,23 @@
   font-size: 1rem;
 }
 
+.input1 {
+  font-weight: bold;
+  font-size: 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.talk-list-item.active .input1 {
+  background-color: var(--input-bg);
+}
+
+.input2 {
+  font-weight: bold;
+  font-size: 1rem;
+  border: 1px solid transparent;
+}
+
 .icon-box {
   display: none;
   margin-left: auto;

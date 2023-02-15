@@ -13,17 +13,13 @@ export default function TalkListItem({ talk }) {
     e.stopPropagation();
 
     removeTalk(id);
-    console.log("삭제아이콘");
-    // setCurrentTalkId(1);
   };
 
   const handleTalkItemClick = () => {
-    console.log("토크 아이템");
     activateTalk(id);
   };
 
   /**
-   * * talk가 활성화 되었을때만! 삭제버튼이 보이게 해줘
    * * talk가 활성화 되었을때만! title을 클릭시 수정할수 있게 해줘
    */
 
@@ -34,12 +30,17 @@ export default function TalkListItem({ talk }) {
       }`}
       onClick={handleTalkItemClick}
     >
-      <span className={styles.title}>{title}</span>
-      {/* {id === activeStorageId ? (
-        <input type="text" value={input} onChange={setInput} />
+      {/* <span className={styles.title}>{title}</span> */}
+      {id === currentTalkId ? (
+        <input
+          className={styles.input1}
+          type="text"
+          value={input}
+          onChange={setInput}
+        />
       ) : (
-        <input type="text" value={input} onChange={setInput} readOnly />
-      )} */}
+        <span className={styles.title}>{title}</span>
+      )}
 
       <div className={styles["icon-box"]} onClick={handleRemoveIconClick}>
         <FiMinus className={styles.icon} />
