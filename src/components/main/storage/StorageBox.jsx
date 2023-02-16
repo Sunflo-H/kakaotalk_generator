@@ -21,9 +21,8 @@ export default function StorageBox() {
         </div>
       </div>
       <div className={styles.main}>
-        {talkList.map((talk) => (
-          <TalkListItem talk={talk} key={talk.id} />
-        ))}
+        {talkList &&
+          talkList.map((talk) => <TalkListItem talk={talk} key={talk.id} />)}
       </div>
     </div>
   );

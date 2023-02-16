@@ -10,7 +10,8 @@ export default function TalkMain() {
   const { talkList, currentTalkId, messages_for_playback } =
     useContext(TalkContext);
 
-  const currentTalk = talkList.find((talk) => talk.id === currentTalkId);
+  const currentTalk =
+    talkList && talkList.find((talk) => talk.id === currentTalkId);
 
   return (
     <div className={styles["viewer"]}>
