@@ -14,38 +14,17 @@ export const TalkContext = createContext();
 
 export function TalkProvider({ children }) {
   const [currentTalkId, setCurrentTalkId] = useState(2);
-  // const [talkList, setTalkList] = useState([
-  // {
-  //   title: "조보아",
-  //   id: 1,
-  //   messages: [
-  //     {
-  //       text: "조보아씨",
-  //       owner: "mine",
-  //       image: "",
-  //       id: 1,
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "백종원",
-  //   id: 2,
-  //   messages: [
-  //     {
-  //       text: "백종원씨",
-  //       owner: "mine",
-  //       image: "",
-  //       id: 1,
-  //     },
-  //     { text: "우히", owner: "other", image: "", id: 2 },
-  //     { text: "쿠쿠루삥뽕", owner: "mine", image: "", id: 3 },
-  //   ],
-  // },
-  // ]);
   const [talkList, setTalkList] = useState(() => {
     if (localStorage.getItem("talkList")) {
       return JSON.parse(localStorage.getItem("talkList"));
-    } else return [];
+    } else
+      return [
+        {
+          title: "New Title",
+          id: 1,
+          messages: [],
+        },
+      ];
   });
 
   const { getId: getTalkId } = useNextId(() => {
@@ -71,10 +50,7 @@ export function TalkProvider({ children }) {
   useEffect(() => {
     //* 로컬저장소
     //* useState랑 useEffect 타이밍이 어떻게 되는거지?
-    console.log(talkList);
-
     localStorage.setItem("talkList", JSON.stringify(talkList));
-    // console.log(talkList);
   }, [talkList]);
 
   useEffect(() => {

@@ -21,7 +21,7 @@ export default function TalkListItem({ talk }) {
 
   const handleChange = (e) => {
     setInput(e.target.value);
-    updateTalkTitle(id, input);
+    updateTalkTitle(id, e.target.value);
   };
 
   const handleKeyDown = (e) => {
