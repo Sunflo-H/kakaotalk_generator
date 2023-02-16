@@ -34,12 +34,17 @@ export function TalkProvider({ children }) {
     },
   ]);
 
-  const { getId: getTalkId } = useNextId(talkList[talkList.length - 1]?.id + 1);
+  const { getId: getTalkId } = useNextId(() => {
+    const lastTalkId = talkList[talkList.length - 1]?.id;
+    return lastTalkId !== undefined ? lastTalkId + 1 : 1;
+  });
   const { getId: getMessageId } = useNextId(() => {
     const currentTalkMessages = talkList.find(
       (talk) => talk.id === currentTalkId
-    ).messages;
-    return currentTalkMessages[currentTalkMessages.length - 1].id + 1;
+    )?.messages;
+    return currentTalkMessages !== undefined
+      ? currentTalkMessages[currentTalkMessages.length - 1]?.id + 1
+      : 1;
   });
 
   const [messages_for_playback, setMessages_for_playback] = useState("");
@@ -50,54 +55,64 @@ export function TalkProvider({ children }) {
 
   const addMessage = (data, owner, type) => {
     const id = getMessageId();
-    if (type === "text") {
-      const text = data;
-      const message = { id: id, text: text, owner: owner, image: "" };
-      setTalkList([
-        ...talkList.map((talk) => {
-          //토크 리스트에서 활성화된 토크를 찾아서 메세지를 추가한다
-          let result =
-            talk.id === currentTalkId
-              ? {
-                  ...talk,
-                  messages: [...talk.messages, message],
-                }
-              : talk;
-          return result;
-        }),
-      ]);
-    } else {
-      const image = data;
-      const message = { id: id, text: "", owner: owner, image: image };
-      setTalkList([
-        ...talkList.map((talk) => {
-          //토크 리스트에서 활성화된 토크를 찾아서 메세지를 추가한다
-          let result =
-            talk.id === currentTalkId
-              ? {
-                  ...talk,
-                  messages: [...talk.messages, message],
-                }
-              : talk;
-          return result;
-        }),
-      ]);
-    }
+    let message =
+      type === "text"
+        ? { id: id, text: data, owner: owner, image: "" }
+        : { id: id, text: "", owner: owner, image: data };
+
+    setTalkList(
+      talkList.map((talk) =>
+        talk.id === currentTalkId
+          ? {
+              ...talk,
+              messages: [...talk.messages, message],
+            }
+          : talk
+      )
+    );
   };
 
-  useEffect(() => {}, [talkList]);
-
-  const removeMessage = (id) => {
+  /**
+   * todo Messages 에서 talkList로 바뀐거 이제 messages만 남은듯 하자!
+   * todo 그리고 저장소 localStorage하면 끝?
+   * @param {*} id
+   */
+  const removeMessage = (id_to_remove) => {
     let confirm = window.confirm("정말 삭제하시겠습니까?");
-    // confirm && setMessages(messages.filter((message) => message.id !== id));
+    confirm &&
+      setTalkList(
+        talkList.map((talk) =>
+          talk.id === currentTalkId
+            ? {
+                ...talk,
+                messages: talk.messages.filter(
+                  (message) => message.id !== id_to_remove
+                ),
+              }
+            : talk
+        )
+      );
   };
 
-  const updateMessage = (id, input) => {
-    // setMessages(
-    //   messages.map((message) =>
-    //     message.id === id ? { ...message, text: input } : message
-    //   )
-    // );
+  window.addEventListener("click", () => {
+    console.log(talkList);
+  });
+
+  const updateMessage = (id_to_update, data) => {
+    setTalkList(
+      talkList.map((talk) =>
+        talk.id === currentTalkId
+          ? {
+              ...talk,
+              messages: talk.messages.map((message) =>
+                message.id === id_to_update
+                  ? { ...message, text: data }
+                  : message
+              ),
+            }
+          : talk
+      )
+    );
   };
 
   const fillMessages_for_playback = (message) => {
@@ -120,15 +135,9 @@ export function TalkProvider({ children }) {
   const updateTalkTitle = (id, title) => {
     console.log(id, title);
     setTalkList(
-      talkList.map((talk) => {
-        // (talk.id === id ? (talk.title = title) : talk)
-
-        if (talk.id === id) {
-          talk.title = title;
-        }
-
-        return talk;
-      })
+      talkList.map((talk) =>
+        talk.id === id ? { ...talk, title: title } : talk
+      )
     );
   };
 
