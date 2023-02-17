@@ -14,18 +14,17 @@ export const TalkContext = createContext();
 
 export function TalkProvider({ children }) {
   const [currentTalkId, setCurrentTalkId] = useState(1);
-  const [talkList, setTalkList] = useState(() => {
-    if (localStorage.getItem("talkList")) {
-      return JSON.parse(localStorage.getItem("talkList"));
-    } else
-      return [
-        {
-          title: "New Title",
-          id: 1,
-          messages: [],
-        },
-      ];
-  });
+  const [talkList, setTalkList] = useState(
+    localStorage.getItem("talkList")
+      ? JSON.parse(localStorage.getItem("talkList"))
+      : [
+          {
+            title: "New Title",
+            id: 1,
+            messages: [],
+          },
+        ]
+  );
 
   const { getId: getTalkId } = useNextId(() => {
     const lastTalkId = talkList && talkList[talkList.length - 1]?.id;

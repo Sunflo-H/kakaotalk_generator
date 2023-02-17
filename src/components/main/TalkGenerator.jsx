@@ -25,12 +25,18 @@ export default function TalkGenerator() {
    * 5. 리더가 로드되면 reader.result를 img의 src로 입력
    */
   const handleInputImageChange = (e) => {
-    const owner = e.target.dataset.owner;
+    // const owner = e.target.dataset.owner;
     const file = e.target.files[0];
     const reader = new FileReader();
+    const owner = e.currentTarget.dataset.owner;
+    const image = images[owner];
+    const type = "image";
+
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setImages({ ...images, [owner]: reader.result });
+      // setImages({ ...images, [owner]: reader.result });
+      addMessage(reader.result, owner, type);
+      setImages({ ...images, [owner]: "" });
     };
   };
 
@@ -91,15 +97,16 @@ export default function TalkGenerator() {
               accept="image/*"
               id="my_image"
               data-owner="mine"
+              value={images.mine}
               onChange={handleInputImageChange}
             />
-            <button
+            {/* <button
               className={styles.add}
               data-owner="mine"
               onClick={handleAddImageBtnClick}
             >
               <MdAddPhotoAlternate className={styles.icons} />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -132,15 +139,16 @@ export default function TalkGenerator() {
               accept="image/*"
               id="other_image"
               data-owner="other"
+              value={images.other}
               onChange={handleInputImageChange}
             />
-            <button
+            {/* <button
               className={styles.add}
               data-owner="other"
               onClick={handleAddImageBtnClick}
             >
               <MdAddPhotoAlternate className={styles.icons} />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

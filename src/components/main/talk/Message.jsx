@@ -45,29 +45,54 @@ export default function Message({ message }) {
   };
 
   return (
-    <div className={styles["message-box"]}>
+    <li className={styles["message-box"]} draggable="true">
       {isUpdating ? (
         <>
-          <input
-            type="text"
-            value={input}
-            onChange={handleInputTextChange}
-            className={`${styles[owner]} ${styles.message} ${styles.input}`}
-            onKeyDown={handleKeyDown}
-            ref={focusRef}
-          />
-          <div
-            className={`${styles["btn"]} ${styles["confirm"]}`}
-            onClick={handleUpdateClick}
-          >
-            <IoCheckmarkSharp />
-          </div>
-          <div
-            className={`${styles["btn"]} ${styles["remove"]}`}
-            onClick={handleRemoveClick}
-          >
-            <IoClose />
-          </div>
+          {image === "" ? (
+            <>
+              <input
+                type="text"
+                value={input}
+                onChange={handleInputTextChange}
+                className={`${styles[owner]} ${styles.message} ${styles.input}`}
+                onKeyDown={handleKeyDown}
+                ref={focusRef}
+              />
+              <div
+                className={`${styles["btn"]} ${styles["confirm"]}`}
+                onClick={handleUpdateClick}
+              >
+                <IoCheckmarkSharp />
+              </div>
+              <div
+                className={`${styles["btn"]} ${styles["remove"]}`}
+                onClick={handleRemoveClick}
+              >
+                <IoClose />
+              </div>
+            </>
+          ) : (
+            <>
+              <img
+                className={`${styles[owner]} ${styles.image}`}
+                src={image}
+                alt={image}
+                onClick={handleMessageClick}
+              />
+              <div
+                className={`${styles["btn"]} ${styles["confirm"]}`}
+                onClick={handleUpdateClick}
+              >
+                <IoCheckmarkSharp />
+              </div>
+              <div
+                className={`${styles["btn"]} ${styles["remove"]}`}
+                onClick={handleRemoveClick}
+              >
+                <IoClose />
+              </div>
+            </>
+          )}
         </>
       ) : (
         <>
@@ -83,10 +108,12 @@ export default function Message({ message }) {
               className={`${styles[owner]} ${styles.image}`}
               src={image}
               alt={image}
+              onClick={handleMessageClick}
+              draggable="false"
             />
           )}
         </>
       )}
-    </div>
+    </li>
   );
 }

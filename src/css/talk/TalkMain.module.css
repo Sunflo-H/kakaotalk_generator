@@ -1,5 +1,6 @@
 .viewer {
   flex-grow: 1;
+
   padding-bottom: 20px;
   overflow-y: hidden;
 }
@@ -7,5 +8,8 @@
 .messages {
   height: 100%;
   padding: 5px 20px;
+
   overflow-y: scroll;
+
+  list-style: none;
 }
