@@ -45,7 +45,7 @@ export default function Message({ message }) {
   };
 
   return (
-    <li className={styles["message-box"]} draggable="true">
+    <li className={styles["message-box"]} draggable={isUpdating ? false : true}>
       {isUpdating ? (
         <>
           {image === "" ? (
@@ -57,15 +57,18 @@ export default function Message({ message }) {
                 className={`${styles[owner]} ${styles.message} ${styles.input}`}
                 onKeyDown={handleKeyDown}
                 ref={focusRef}
+                draggable="false"
               />
               <div
                 className={`${styles["btn"]} ${styles["confirm"]}`}
+                draggable="false"
                 onClick={handleUpdateClick}
               >
                 <IoCheckmarkSharp />
               </div>
               <div
                 className={`${styles["btn"]} ${styles["remove"]}`}
+                draggable="false"
                 onClick={handleRemoveClick}
               >
                 <IoClose />
@@ -77,16 +80,19 @@ export default function Message({ message }) {
                 className={`${styles[owner]} ${styles.image}`}
                 src={image}
                 alt={image}
+                draggable="false"
                 onClick={handleMessageClick}
               />
               <div
                 className={`${styles["btn"]} ${styles["confirm"]}`}
+                draggable="false"
                 onClick={handleUpdateClick}
               >
                 <IoCheckmarkSharp />
               </div>
               <div
                 className={`${styles["btn"]} ${styles["remove"]}`}
+                draggable="false"
                 onClick={handleRemoveClick}
               >
                 <IoClose />

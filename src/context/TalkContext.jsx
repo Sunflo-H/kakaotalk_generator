@@ -31,11 +31,7 @@ export function TalkProvider({ children }) {
     return lastTalkId !== undefined ? lastTalkId + 1 : 1;
   });
 
-  const {
-    getId: getMessageId,
-    setId: setMessageId,
-    id: mID,
-  } = useNextId(() => {
+  const { getId: getMessageId, setId: setMessageId } = useNextId(() => {
     const currentTalkMessages =
       talkList && talkList.find((talk) => talk.id === currentTalkId)?.messages;
 
