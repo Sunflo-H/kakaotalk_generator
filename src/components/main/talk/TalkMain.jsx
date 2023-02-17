@@ -9,7 +9,10 @@ export default function TalkMain() {
   const { talkList, currentTalkId, messages_for_playback } =
     useContext(TalkContext);
   const ulRef = useRef();
-
+  const [messages, setMessages] = useState(
+    talkList.find((talk) => talk.id === currentTalkId).messages
+  );
+  console.log(messages);
   const currentTalk =
     talkList && talkList.find((talk) => talk.id === currentTalkId);
 
@@ -50,7 +53,7 @@ export default function TalkMain() {
     const listArr = [...currentItem.parentElement.children];
     let dropItemIndex = listArr.indexOf(currentDropItem); // 이게 -1이 아니면 그대로, -1이면 바꿔야해
 
-    // li외의 것들이 드롭하는 곳일때 부모(원래 드롭할장소인 li)로 바꿔준다.
+    // <li></li> 안의 요소들이 드롭하는 곳일때 부모(원래 드롭할장소인 li)로 바꿔준다.
     if (dropItemIndex === -1) {
       currentDropItem = e.target.parentElement;
       dropItemIndex = listArr.indexOf(currentDropItem);
@@ -61,6 +64,22 @@ export default function TalkMain() {
     } else {
       currentDropItem.before(currentItem);
     }
+
+    // 겉으로는 위치가 바뀌었으니까 실제 데이터도 바꿔본다.
+    // 어떻게 바꿀지 생각해보자
+    /**
+     * talk에서 messages만 빼왔다. 메세지를 변경하고 그걸 그대로 talk에 적용
+     *
+     * 1. 바꾼뒤의 list의 자식 배열을 구한다
+     * 2. 자식 배열을 message화 시킨다
+     *
+     * 메세지화?
+     *    text 타입인경우  :innerText로 값 얻기
+     *    image 타입인경우 : 몇번쨰 자식 li의 첫엘리먼트차일드가 img면 src로 값을 얻을수 있다.
+     *
+     */
+    let arr = [...currentItem.parentElement.children];
+    console.log(arr);
   };
 
   return (
