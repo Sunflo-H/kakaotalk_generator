@@ -105,6 +105,7 @@ export default function Message({ message }) {
           {image === "" ? (
             <div
               className={`${styles[owner]} ${styles.message}`}
+              data-messageid={id}
               onClick={handleMessageClick}
             >
               {text}
@@ -114,8 +115,9 @@ export default function Message({ message }) {
               className={`${styles[owner]} ${styles.image}`}
               src={image}
               alt={image}
-              onClick={handleMessageClick}
+              data-messageid={id}
               draggable="false"
+              onClick={handleMessageClick}
             />
           )}
         </>

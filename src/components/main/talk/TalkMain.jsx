@@ -6,13 +6,10 @@ import Message from "./Message";
 
 export default function TalkMain() {
   const { isPlay } = useContext(TalkPlayerContext);
-  const { talkList, currentTalkId, messages_for_playback } =
+  const { setTalkList, talkList, currentTalkId, messages_for_playback } =
     useContext(TalkContext);
   const ulRef = useRef();
-  const [messages, setMessages] = useState(
-    talkList.find((talk) => talk.id === currentTalkId).messages
-  );
-  console.log(messages);
+
   const currentTalk =
     talkList && talkList.find((talk) => talk.id === currentTalkId);
 
@@ -65,21 +62,28 @@ export default function TalkMain() {
       currentDropItem.before(currentItem);
     }
 
-    // 겉으로는 위치가 바뀌었으니까 실제 데이터도 바꿔본다.
-    // 어떻게 바꿀지 생각해보자
-    /**
-     * talk에서 messages만 빼왔다. 메세지를 변경하고 그걸 그대로 talk에 적용
-     *
-     * 1. 바꾼뒤의 list의 자식 배열을 구한다
-     * 2. 자식 배열을 message화 시킨다
-     *
-     * 메세지화?
-     *    text 타입인경우  :innerText로 값 얻기
-     *    image 타입인경우 : 몇번쨰 자식 li의 첫엘리먼트차일드가 img면 src로 값을 얻을수 있다.
-     *
-     */
-    let arr = [...currentItem.parentElement.children];
-    console.log(arr);
+    // 노드리스트에는 map이 안되기때문에 복사한 배열
+    const listArr_afterChange = [...list.current.children];
+    const idArr = listArr_afterChange.map(
+      (item) => item.firstChild.dataset.messageid
+    );
+
+    // 바뀐 메세지순서대로 실제 데이터에도 적용
+    setTalkList(
+      talkList.map((talk) => {
+        if (talk.id === currentTalkId) {
+          const resultMessages = [];
+          idArr.forEach((id) => {
+            const findMessage = talk.messages.find(
+              (message) => message.id === Number(id)
+            );
+            resultMessages.push(findMessage);
+          });
+          return { ...talk, messages: [...resultMessages] };
+        }
+        return talk;
+      })
+    );
   };
 
   return (
