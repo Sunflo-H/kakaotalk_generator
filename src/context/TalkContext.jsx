@@ -13,7 +13,7 @@ export const TalkContext = createContext();
  */
 
 export function TalkProvider({ children }) {
-  const [currentTalkId, setCurrentTalkId] = useState(2);
+  const [currentTalkId, setCurrentTalkId] = useState(1);
   const [talkList, setTalkList] = useState(() => {
     if (localStorage.getItem("talkList")) {
       return JSON.parse(localStorage.getItem("talkList"));

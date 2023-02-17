@@ -53,8 +53,9 @@ export default function TalkGenerator() {
   const handleKeyDown = (e) => {
     const owner = e.currentTarget.dataset.owner;
     const text = inputs[owner];
+    const type = "text";
     if (e.key === "Enter") {
-      addMessage(text, owner);
+      addMessage(text, owner, type);
       setInputs({ ...inputs, [owner]: "" });
     }
   };
