@@ -4,50 +4,64 @@ import { FaArrowLeft } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
 import styles from "../../../css/talk/TalkHeader.module.css";
 import { TalkPlayerContext } from "../../../context/TalkPlayerContext";
+import { TalkContext } from "../../../context/TalkContext";
 
 export default function TalkHeader() {
-  const [title, setTitle] = useState("New Title");
-  const [title_inputState, setTitle_inputState] = useState(false);
+  const [inputState, setInputState] = useState(false);
+  const { talkList, currentTalkId, updateOtherName } = useContext(TalkContext);
   const { playState } = useContext(TalkPlayerContext);
 
-  if (playState) {
-    return (
-      <div className={styles.header}>
-        <FaArrowLeft className={styles["icon"]} />
-        <div className={styles["title"]}>
-          <span>{title}</span>
-        </div>
-        <div>
-          <BiSearch className={styles.icon} />
-          <BsList className={styles.icon} />
-        </div>
-      </div>
-    );
-  }
+  const otherName = talkList.find(
+    (talk) => talk.id === currentTalkId
+  ).otherName;
+
+  const handleChange = (e) => {
+    updateOtherName(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      setInputState(false);
+    }
+  };
 
   return (
-    <div className={styles.header}>
-      <FaArrowLeft className={styles["icon"]} />
-      <div className={styles["title"]}>
-        {title_inputState ? (
-          <form onSubmit={() => setTitle_inputState(false)}>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </form>
-        ) : (
-          <>
-            <span>{title}</span>
-            <BsPencil onClick={(e) => setTitle_inputState(true)} />
-          </>
-        )}
-      </div>
-      <div>
-        <BiSearch className={styles.icon} />
-        <BsList className={styles.icon} />
-      </div>
-    </div>
+    <>
+      {playState ? (
+        <div className={styles.header}>
+          <FaArrowLeft className={styles["icon"]} />
+          <div className={styles["otherName"]}>
+            <span>{otherName}</span>
+          </div>
+          <div>
+            <BiSearch className={styles.icon} />
+            <BsList className={styles.icon} />
+          </div>
+        </div>
+      ) : (
+        <div className={styles.header}>
+          <FaArrowLeft className={styles["icon"]} />
+          <div className={styles["otherName"]}>
+            {inputState ? (
+              <input
+                type="text"
+                value={otherName}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+            ) : (
+              <>
+                <span>{otherName}</span>
+                <BsPencil onClick={(e) => setInputState(true)} />
+              </>
+            )}
+          </div>
+          <div>
+            <BiSearch className={styles.icon} />
+            <BsList className={styles.icon} />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

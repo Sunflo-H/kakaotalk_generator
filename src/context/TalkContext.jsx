@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import useNextId from "../hooks/useNextId";
 
 export const TalkContext = createContext();
@@ -19,8 +19,9 @@ export function TalkProvider({ children }) {
       ? JSON.parse(localStorage.getItem("talkList"))
       : [
           {
-            title: "New Title",
             id: 1,
+            title: "New Title",
+            otherName: "상대방",
             messages: [],
           },
         ]
@@ -41,10 +42,9 @@ export function TalkProvider({ children }) {
   });
 
   const [messages_for_playback, setMessages_for_playback] = useState("");
+  const [messagesScrollDown, setMessagesScrollDown] = useState(false); // 메세지가 추가될때마다 상태가 바뀌어 scrolldown이 발생하는 state, 값은 중요하지 않다.
 
   useEffect(() => {
-    //* 로컬저장소
-    //* useState랑 useEffect 타이밍이 어떻게 되는거지?
     localStorage.setItem("talkList", JSON.stringify(talkList));
   }, [talkList]);
 
@@ -62,9 +62,9 @@ export function TalkProvider({ children }) {
     });
   }, [currentTalkId]);
 
-  const getCurrentTalkMessages = () => {
-    return talkList.find((talk) => talk.id === currentTalkId).messages;
-  };
+  // const getCurrentTalkMessages = () => {
+  //   return talkList.find((talk) => talk.id === currentTalkId).messages;
+  // };
 
   const addMessage = (data, owner, type) => {
     const id = getMessageId();
@@ -83,6 +83,7 @@ export function TalkProvider({ children }) {
           : talk
       )
     );
+    setMessagesScrollDown((prev) => !prev);
   };
 
   const removeMessage = (id_to_remove) => {
@@ -149,6 +150,17 @@ export function TalkProvider({ children }) {
     setCurrentTalkId(id);
   };
 
+  const updateOtherName = (name) => {
+    setTalkList(
+      talkList.map((talk) => {
+        if (talk.id === currentTalkId) {
+          return { ...talk, otherName: name };
+        }
+        return talk;
+      })
+    );
+  };
+
   return (
     <TalkContext.Provider
       value={{
@@ -156,19 +168,18 @@ export function TalkProvider({ children }) {
         setTalkList,
         currentTalkId,
         setCurrentTalkId,
-        getCurrentTalkMessages,
         createTalk,
         removeTalk,
         updateTalkTitle,
         activateTalk,
-        // messages,
-        // setMessages,
         messages_for_playback,
         fillMessages_for_playback,
         resetMessages_for_playback,
         addMessage,
         removeMessage,
         updateMessage,
+        messagesScrollDown,
+        updateOtherName,
       }}
     >
       {children}

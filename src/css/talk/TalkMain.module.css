@@ -1,6 +1,6 @@
 .viewer {
   flex-grow: 1;
-
+  padding-right: 2px;
   padding-bottom: 20px;
   overflow-y: hidden;
 }
@@ -12,4 +12,17 @@
   overflow-y: scroll;
 
   list-style: none;
+}
+
+.messages::-webkit-scrollbar {
+  width: 5px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-track {
+  display: none;
 }

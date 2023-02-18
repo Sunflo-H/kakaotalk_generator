@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { TalkContext } from "../../../context/TalkContext";
 import { TalkPlayerContext } from "../../../context/TalkPlayerContext";
 import styles from "../../../css/talk/TalkMain.module.css";
@@ -6,8 +12,13 @@ import Message from "./Message";
 
 export default function TalkMain() {
   const { isPlay } = useContext(TalkPlayerContext);
-  const { setTalkList, talkList, currentTalkId, messages_for_playback } =
-    useContext(TalkContext);
+  const {
+    setTalkList,
+    talkList,
+    currentTalkId,
+    messages_for_playback,
+    messagesScrollDown,
+  } = useContext(TalkContext);
   const ulRef = useRef();
 
   const currentTalk =
@@ -15,7 +26,6 @@ export default function TalkMain() {
 
   const list = ulRef;
 
-  // state 안쓰고 해봄
   let currentItemIndex = null;
   let currentItem = null;
 
@@ -27,14 +37,6 @@ export default function TalkMain() {
   };
 
   const handleDragOver = (e) => {
-    /**
-     * 부모가 list가 아니면 드롭이 안되야해
-     * 부모의 부모도 list가 아니면 드롭이 안되야해
-     *
-     * 부모가 list면 드롭 해!
-     * 부모의 부모가 list면 드롭해
-     * 부모의 부모의 부모가 list면 드롭해
-     */
     const currentOverItem = e.target;
     if (
       currentOverItem.parentElement === list.current ||
@@ -46,6 +48,11 @@ export default function TalkMain() {
 
   const handleDrop = (e) => {
     e.preventDefault();
+    changeMessagesPosition(e);
+    changedMessagesPositionSetTalkList();
+  };
+
+  const changeMessagesPosition = (e) => {
     let currentDropItem = e.target;
     const listArr = [...currentItem.parentElement.children];
     let dropItemIndex = listArr.indexOf(currentDropItem); // 이게 -1이 아니면 그대로, -1이면 바꿔야해
@@ -61,7 +68,9 @@ export default function TalkMain() {
     } else {
       currentDropItem.before(currentItem);
     }
+  };
 
+  const changedMessagesPositionSetTalkList = () => {
     // 노드리스트에는 map이 안되기때문에 복사한 배열
     const listArr_afterChange = [...list.current.children];
     const idArr = listArr_afterChange.map(
@@ -79,12 +88,23 @@ export default function TalkMain() {
             );
             resultMessages.push(findMessage);
           });
-          return { ...talk, messages: [...resultMessages] };
+          return { ...talk, messages: resultMessages };
         }
         return talk;
       })
     );
   };
+
+  const scrollToBottom = () => {
+    const scrollHeight = ulRef.current.scrollHeight; // 최대 높이
+    ulRef.current.scrollTop = scrollHeight; // 스크롤바의 위치를 최대 높이로 변경
+  };
+
+  // 이거를 메세지가 추가될때만 적용해주고싶어
+  useEffect(() => {
+    scrollToBottom();
+    console.log("hi");
+  }, [messagesScrollDown]);
 
   return (
     <div className={styles["viewer"]}>
