@@ -130,7 +130,10 @@ export function TalkProvider({ children }) {
 
   const createTalk = () => {
     const id = getTalkId();
-    setTalkList([...talkList, { title: "New Talk", id: id, messages: [] }]);
+    setTalkList([
+      ...talkList,
+      { id: id, title: "New Talk", otherName: "상대방", messages: [] },
+    ]);
   };
 
   const removeTalk = (id) => {

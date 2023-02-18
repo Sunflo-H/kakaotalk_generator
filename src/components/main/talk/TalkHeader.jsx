@@ -13,7 +13,7 @@ export default function TalkHeader() {
 
   const otherName = talkList.find(
     (talk) => talk.id === currentTalkId
-  ).otherName;
+  )?.otherName;
 
   const handleChange = (e) => {
     updateOtherName(e.target.value);

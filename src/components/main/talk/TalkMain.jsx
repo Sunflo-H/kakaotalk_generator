@@ -103,7 +103,6 @@ export default function TalkMain() {
   // 이거를 메세지가 추가될때만 적용해주고싶어
   useEffect(() => {
     scrollToBottom();
-    console.log("hi");
   }, [messagesScrollDown]);
 
   return (
