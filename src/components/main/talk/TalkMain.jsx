@@ -100,10 +100,13 @@ export default function TalkMain() {
     ulRef.current.scrollTop = scrollHeight; // 스크롤바의 위치를 최대 높이로 변경
   };
 
-  // 이거를 메세지가 추가될때만 적용해주고싶어
   useEffect(() => {
     scrollToBottom();
   }, [messagesScrollDown]);
+
+  useEffect(() => {
+    console.log(messages_for_playback);
+  }, [messages_for_playback]);
 
   return (
     <div className={styles["viewer"]}>
@@ -116,9 +119,10 @@ export default function TalkMain() {
       >
         {isPlay ? (
           <>
-            {messages_for_playback?.map((message, index) => {
-              return <Message message={message} key={index} />;
-            })}
+            {messages_for_playback &&
+              messages_for_playback?.map((message, index) => {
+                return <Message message={message} key={index} />;
+              })}
           </>
         ) : (
           <>

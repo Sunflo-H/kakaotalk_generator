@@ -21,13 +21,13 @@ export function TalkPlayerProvider({ children }) {
   const playTalk_oneMessage = (messages, count) => {
     synth.cancel();
     const { select_voice_num, speak_pitch, speak_speed } = SST;
-    console.log(messages);
     const utterThis = new SpeechSynthesisUtterance(messages[count].text);
 
     utterThis.voice = voices[select_voice_num];
     utterThis.pitch = speak_pitch;
     utterThis.rate = speak_speed;
 
+    // 첫 메세지면 0.5s의 텀을 준다.
     if (count === 0) {
       setTimeout(() => {
         fillMessages_for_playback(messages[count]);
@@ -38,6 +38,7 @@ export function TalkPlayerProvider({ children }) {
       synth.speak(utterThis);
     }
 
+    // 음성이 종료되면 다음 message를 가지고 이 함수를 다시 실행한다.
     utterThis.addEventListener("end", (event) => {
       count++;
       if (messages.length !== count) playTalk_oneMessage(messages, count);
@@ -49,7 +50,6 @@ export function TalkPlayerProvider({ children }) {
 
     const count = 0;
     const messages = getCurrentTalkMessages();
-
     playTalk_oneMessage(messages, count);
   };
 

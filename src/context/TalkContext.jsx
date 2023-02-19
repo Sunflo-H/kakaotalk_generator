@@ -3,15 +3,6 @@ import useNextId from "../hooks/useNextId";
 
 export const TalkContext = createContext();
 
-/**
- * todo
- * 1. 로컬 저장소
- * 2. 이미지의 수정, 삭제
- * 3. 메세지의 위치 변경
- * 4. 메세지의 스크롤
- * 5. 재생할때 음성은 되는데 화면이 안나옴
- */
-
 export function TalkProvider({ children }) {
   const [currentTalkId, setCurrentTalkId] = useState(1);
   const [talkList, setTalkList] = useState(
@@ -41,13 +32,19 @@ export function TalkProvider({ children }) {
       : 1;
   });
 
+  // 재생용 메세지 배열
   const [messages_for_playback, setMessages_for_playback] = useState("");
-  const [messagesScrollDown, setMessagesScrollDown] = useState(false); // 메세지가 추가될때마다 상태가 바뀌어 scrolldown이 발생하는 state, 값은 중요하지 않다.
 
+  // 메세지가 추가될때마다 상태가 바뀌어 scrolldown이 발생하는 state, 값이 바뀌는 것 자체가 역할을한다.
+  const [messagesScrollDown, setMessagesScrollDown] = useState(false);
+
+  // * Talk 관련 코드들
+  // talkList의 값이 변경될때마다 localStorage에 저장한다.
   useEffect(() => {
     localStorage.setItem("talkList", JSON.stringify(talkList));
   }, [talkList]);
 
+  // 활성화중인 Talk가 변경되었을때 Talk의 '마지막 메세지.id + 1' 을 다음 id로 사용
   useEffect(() => {
     setMessageId(() => {
       const currentTalkMessages =
@@ -62,10 +59,31 @@ export function TalkProvider({ children }) {
     });
   }, [currentTalkId]);
 
-  // const getCurrentTalkMessages = () => {
-  //   return talkList.find((talk) => talk.id === currentTalkId).messages;
-  // };
+  const createTalk = () => {
+    const id = getTalkId();
+    setTalkList([
+      ...talkList,
+      { id: id, title: "New Talk", otherName: "상대방", messages: [] },
+    ]);
+  };
 
+  const removeTalk = (id) => {
+    setTalkList(talkList.filter((talk) => talk.id !== id));
+  };
+
+  const updateTalkTitle = (id, title) => {
+    setTalkList(
+      talkList.map((talk) =>
+        talk.id === id ? { ...talk, title: title } : talk
+      )
+    );
+  };
+
+  const activateTalk = (id) => {
+    setCurrentTalkId(id);
+  };
+
+  // * Message 관련 코드들
   const addMessage = (data, owner, type) => {
     const id = getMessageId();
     let message =
@@ -120,39 +138,6 @@ export function TalkProvider({ children }) {
     );
   };
 
-  const fillMessages_for_playback = (message) => {
-    setMessages_for_playback((prev) => [...prev, message]);
-  };
-
-  const resetMessages_for_playback = () => {
-    setMessages_for_playback("");
-  };
-
-  const createTalk = () => {
-    const id = getTalkId();
-    setTalkList([
-      ...talkList,
-      { id: id, title: "New Talk", otherName: "상대방", messages: [] },
-    ]);
-  };
-
-  const removeTalk = (id) => {
-    setTalkList(talkList.filter((talk) => talk.id !== id));
-  };
-
-  const updateTalkTitle = (id, title) => {
-    console.log(id, title);
-    setTalkList(
-      talkList.map((talk) =>
-        talk.id === id ? { ...talk, title: title } : talk
-      )
-    );
-  };
-
-  const activateTalk = (id) => {
-    setCurrentTalkId(id);
-  };
-
   const updateOtherName = (name) => {
     setTalkList(
       talkList.map((talk) => {
@@ -164,9 +149,23 @@ export function TalkProvider({ children }) {
     );
   };
 
+  // * 재생할 Message 관련 코드들
+  const fillMessages_for_playback = (message) => {
+    setMessages_for_playback((prev) => [...prev, message]);
+  };
+
+  const resetMessages_for_playback = () => {
+    setMessages_for_playback("");
+  };
+
+  const getCurrentTalkMessages = () => {
+    return talkList.find((talk) => talk.id === currentTalkId).messages;
+  };
+
   return (
     <TalkContext.Provider
       value={{
+        // talk
         talkList,
         setTalkList,
         currentTalkId,
@@ -175,14 +174,19 @@ export function TalkProvider({ children }) {
         removeTalk,
         updateTalkTitle,
         activateTalk,
-        messages_for_playback,
-        fillMessages_for_playback,
-        resetMessages_for_playback,
+
+        // message
         addMessage,
         removeMessage,
         updateMessage,
         messagesScrollDown,
         updateOtherName,
+
+        // 재생용 message
+        messages_for_playback,
+        fillMessages_for_playback,
+        resetMessages_for_playback,
+        getCurrentTalkMessages,
       }}
     >
       {children}

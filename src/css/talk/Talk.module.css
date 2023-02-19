@@ -4,8 +4,8 @@
   position: relative;
   max-width: 500px;
   width: 50%;
-  height: 100%;
-  margin: auto;
+  height: 95%;
+  margin: 20px auto;
   background-color: var(--bg);
   border-radius: 20px 20px 0 0;
   box-sizing: border-box;
