@@ -1,7 +1,7 @@
 # Project : Kakaotalk Generator
 
 # Stack
-HTML , CSS , React, SST api
+HTML , CSS , React, Web Speech API
 
 # 목표
 Youtube에서 웃긴 카톡 대화를 보여주는 shorts를 보고 영감을 받아 코드로 구현 해 보고 싶었습니다.
@@ -34,6 +34,20 @@ Youtube에서 웃긴 카톡 대화를 보여주는 shorts를 보고 영감을 �
 
 ### Play
 ![image](https://user-images.githubusercontent.com/70611956/219977003-a1d6ba79-d4b8-42fc-9878-220bfd43fbeb.png)
+
+# 어려웠던점
+### 1. state 의 값에 배열과 객체들이 중첩되어 불변성을 지키면서 setState를 하는 것이 어려웠습니다.
+기본적인 state의 객체 추가, 업데이트, 삭제는 할 수 있었으나 객체와 배열이 중첩되는것 만으로 setState 코드의 난이도가 확 올라간 느낌이었습니다.
+꼼꼼하게 console.log를 찍어 값을 확인하며 하다보니 처음에는 에러가 나서 아예 작동하지 않다가도 
+점점 state에 의도치 않은 값이라도 들어가게되며 결국에는 원하는 결과를 얻을수 있었습니다.
+
+### 2. Talk를 재생할때 현재 음성이 끝난 뒤에 다음 text가 재생되도록 하는 것이 어려웠습니다.
+'음성이 끝났다' 라는 조건을 찾기 위해 MDN을 찾아봤지만 찾지 못했습니다. (알고 난뒤 찾으니 찾았습니다..)
+그래서 SST에서 제공하는 음성 데이터를 직접 확인해보았고 여기서 end라는 이벤트를 찾을 수 있었습니다.
+메세지를 한줄씩 출력하고, 읽는 함수를 만들어서 end가 되었을때 다음 메세지를 읽도록 만들었습니다.
+
+
+
 
 
 
