@@ -1,7 +1,10 @@
 # Project : Kakaotalk Generator
 
 # Stack
-HTML , CSS , React, Web Speech API
+- HTML 
+- CSS 
+- React
+- Web Speech API
 
 # 목표
 Youtube에서 웃긴 카톡 대화를 보여주는 shorts를 보고 영감을 받아 코드로 구현 해 보고 싶었습니다.
