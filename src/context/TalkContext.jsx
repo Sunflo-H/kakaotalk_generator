@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import useNextId from "../hooks/useNextId";
 
 export const TalkContext = createContext();
@@ -162,10 +169,41 @@ export function TalkProvider({ children }) {
     return talkList.find((talk) => talk.id === currentTalkId).messages;
   };
 
+  // * drag and drop 관련 코드
+  /**
+   *
+   * @param {*} dropableSpace
+   *
+   * drag and drop으로 바뀐 위치정보를 talkList에 저장한다.
+   */
+  const setMessagesPositionToTalkList = useCallback((dropableSpace) => {
+    const nodeListToArr = [...dropableSpace.children];
+    const idArr = nodeListToArr.map(
+      (item) => item.firstChild.dataset.messageid
+    );
+
+    // 바뀐 메세지순서를 실제 데이터에도 적용
+    setTalkList(
+      talkList.map((talk) => {
+        if (talk.id === currentTalkId) {
+          const resultMessages = [];
+          idArr.forEach((id) => {
+            const findMessage = talk.messages.find(
+              (message) => message.id === Number(id)
+            );
+            resultMessages.push(findMessage);
+          });
+          return { ...talk, messages: resultMessages };
+        }
+        return talk;
+      })
+    );
+  });
+
   return (
     <TalkContext.Provider
       value={{
-        // talk
+        //* talk
         talkList,
         setTalkList,
         currentTalkId,
@@ -175,18 +213,21 @@ export function TalkProvider({ children }) {
         updateTalkTitle,
         activeTalk,
 
-        // message
+        //* message
         addMessage,
         removeMessage,
         updateMessage,
         messagesScrollDown,
         updateOtherName,
 
-        // 재생용 message
+        //* 재생용 message
         messages_for_playback,
         fillMessages_for_playback,
         resetMessages_for_playback,
         getCurrentTalkMessages,
+
+        //* drag and drop
+        setMessagesPositionToTalkList,
       }}
     >
       {children}

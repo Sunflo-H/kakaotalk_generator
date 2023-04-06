@@ -9,91 +9,24 @@ import { TalkContext } from "../../../context/TalkContext";
 import { TalkPlayerContext } from "../../../context/TalkPlayerContext";
 import styles from "../../../css/talk/TalkMain.module.css";
 import Message from "./Message";
+import useDragAndDrop from "../../../hooks/useDragAndDrop";
 
+/**
+ * Talk의 메세지들을 보여주고, 메세지의 위치를 드래그 앤 드롭으로 변경하는 컴포넌트
+ */
 export default function TalkMain() {
   const { isPlay } = useContext(TalkPlayerContext);
-  const {
-    setTalkList,
-    talkList,
-    currentTalkId,
-    messages_for_playback,
-    messagesScrollDown,
-  } = useContext(TalkContext);
-  const ulRef = useRef();
+  const { talkList, currentTalkId, messages_for_playback, messagesScrollDown } =
+    useContext(TalkContext);
 
   const currentTalk =
     talkList && talkList.find((talk) => talk.id === currentTalkId);
 
-  const list = ulRef;
-
-  let currentItemIndex = null;
-  let currentItem = null;
-
-  const handleDragStart = (e) => {
-    currentItem = e.target;
-
-    const listArr = [...currentItem.parentElement.children];
-    currentItemIndex = listArr.indexOf(currentItem);
-  };
-
-  const handleDragOver = (e) => {
-    const currentOverItem = e.target;
-    if (
-      currentOverItem.parentElement === list.current ||
-      currentOverItem.parentElement.parentElement === list.current ||
-      currentOverItem.parentElement.parentElement.parentElement === list.current
-    )
-      e.preventDefault();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    changeMessagesPosition(e);
-    changedMessagesPositionSetTalkList();
-  };
-
-  const changeMessagesPosition = (e) => {
-    let currentDropItem = e.target;
-    const listArr = [...currentItem.parentElement.children];
-    let dropItemIndex = listArr.indexOf(currentDropItem); // 이게 -1이 아니면 그대로, -1이면 바꿔야해
-
-    // <li></li> 안의 요소들이 드롭하는 곳일때 부모(원래 드롭할장소인 li)로 바꿔준다.
-    if (dropItemIndex === -1) {
-      currentDropItem = e.target.parentElement;
-      dropItemIndex = listArr.indexOf(currentDropItem);
-    }
-
-    if (currentItemIndex < dropItemIndex) {
-      currentDropItem.after(currentItem);
-    } else {
-      currentDropItem.before(currentItem);
-    }
-  };
-
-  const changedMessagesPositionSetTalkList = () => {
-    // 노드리스트에는 map이 안되기때문에 복사한 배열
-    const listArr_afterChange = [...list.current.children];
-    const idArr = listArr_afterChange.map(
-      (item) => item.firstChild.dataset.messageid
-    );
-
-    // 바뀐 메세지순서대로 실제 데이터에도 적용
-    setTalkList(
-      talkList.map((talk) => {
-        if (talk.id === currentTalkId) {
-          const resultMessages = [];
-          idArr.forEach((id) => {
-            const findMessage = talk.messages.find(
-              (message) => message.id === Number(id)
-            );
-            resultMessages.push(findMessage);
-          });
-          return { ...talk, messages: resultMessages };
-        }
-        return talk;
-      })
-    );
-  };
+  // element 정보를 얻기위해 useRef 사용
+  const ulRef = useRef();
+  const { handleDragStart, handleDragOver, handleDrop } = useDragAndDrop(
+    ulRef.current
+  );
 
   const scrollToBottom = () => {
     const scrollHeight = ulRef.current.scrollHeight; // 최대 높이
@@ -103,10 +36,6 @@ export default function TalkMain() {
   useEffect(() => {
     scrollToBottom();
   }, [messagesScrollDown]);
-
-  useEffect(() => {
-    console.log(messages_for_playback);
-  }, [messages_for_playback]);
 
   return (
     <div className={styles["viewer"]}>
