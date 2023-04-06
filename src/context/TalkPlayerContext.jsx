@@ -7,9 +7,7 @@ export const TalkPlayerContext = createContext();
 export function TalkPlayerProvider({ children }) {
   const [isPlay, setIsPlay] = useState(false);
   const {
-    talkList,
     getCurrentTalkMessages,
-    messages,
     fillMessages_for_playback,
     resetMessages_for_playback,
   } = useContext(TalkContext);

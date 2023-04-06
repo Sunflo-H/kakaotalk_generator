@@ -79,7 +79,7 @@ export function TalkProvider({ children }) {
     );
   };
 
-  const activateTalk = (id) => {
+  const activeTalk = (id) => {
     setCurrentTalkId(id);
   };
 
@@ -173,7 +173,7 @@ export function TalkProvider({ children }) {
         createTalk,
         removeTalk,
         updateTalkTitle,
-        activateTalk,
+        activeTalk,
 
         // message
         addMessage,

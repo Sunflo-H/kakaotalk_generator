@@ -6,20 +6,18 @@ import { TalkContext } from "../../../context/TalkContext";
 export default function TalkListItem({ talk }) {
   const { title, id } = talk;
   const [input, setInput] = useState(title);
-  const { removeTalk, activateTalk, updateTalkTitle, currentTalkId } =
+  const { removeTalk, activeTalk, updateTalkTitle, currentTalkId } =
     useContext(TalkContext);
 
   const handleRemoveIconClick = (e) => {
-    e.stopPropagation();
-
     removeTalk(id);
   };
 
   const handleTalkItemClick = () => {
-    activateTalk(id);
+    activeTalk(id);
   };
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     setInput(e.target.value);
     updateTalkTitle(id, e.target.value);
   };
@@ -38,11 +36,12 @@ export default function TalkListItem({ talk }) {
       onClick={handleTalkItemClick}
     >
       {id === currentTalkId ? (
+        // active가 된 Talk는 input으로 바꿔서 클릭하면 수정상태가 될 수 있습니다.
         <input
           className={styles.input}
           type="text"
           value={input}
-          onChange={handleChange}
+          onChange={handleInputChange}
           onKeyDown={handleKeyDown}
         />
       ) : (

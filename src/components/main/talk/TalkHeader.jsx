@@ -9,7 +9,7 @@ import { TalkContext } from "../../../context/TalkContext";
 export default function TalkHeader() {
   const [inputState, setInputState] = useState(false);
   const { talkList, currentTalkId, updateOtherName } = useContext(TalkContext);
-  const { playState } = useContext(TalkPlayerContext);
+  const { isPlay } = useContext(TalkPlayerContext);
 
   const otherName = talkList.find(
     (talk) => talk.id === currentTalkId
@@ -27,7 +27,7 @@ export default function TalkHeader() {
 
   return (
     <>
-      {playState ? (
+      {isPlay ? (
         <div className={styles.header}>
           <FaArrowLeft className={styles["icon"]} />
           <div className={styles["otherName"]}>

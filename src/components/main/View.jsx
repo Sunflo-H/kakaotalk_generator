@@ -14,7 +14,10 @@ export default function View() {
 
   return (
     <div className={styles.view}>
+      {/* 토크 화면 */}
       <Talk />
+
+      {/* 재생 버튼 */}
       <div className={styles.play} onClick={handleClick}>
         <BsPlayCircleFill className={styles.icon} />
       </div>
