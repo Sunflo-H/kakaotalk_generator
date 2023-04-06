@@ -42,9 +42,6 @@ export function TalkProvider({ children }) {
   // 재생용 메세지 배열
   const [messages_for_playback, setMessages_for_playback] = useState("");
 
-  // 메세지가 추가될때마다 상태가 바뀌어 scrolldown이 발생하는 state, 값이 바뀌는 것 자체가 역할을한다.
-  const [messagesScrollDown, setMessagesScrollDown] = useState(false);
-
   // * Talk 관련 코드들
   // talkList의 값이 변경될때마다 localStorage에 저장한다.
   useEffect(() => {
@@ -108,7 +105,6 @@ export function TalkProvider({ children }) {
           : talk
       )
     );
-    setMessagesScrollDown((prev) => !prev);
   };
 
   const removeMessage = (id_to_remove) => {
@@ -217,7 +213,6 @@ export function TalkProvider({ children }) {
         addMessage,
         removeMessage,
         updateMessage,
-        messagesScrollDown,
         updateOtherName,
 
         //* 재생용 message

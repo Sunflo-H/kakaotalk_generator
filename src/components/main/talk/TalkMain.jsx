@@ -16,7 +16,7 @@ import useDragAndDrop from "../../../hooks/useDragAndDrop";
  */
 export default function TalkMain() {
   const { isPlay } = useContext(TalkPlayerContext);
-  const { talkList, currentTalkId, messages_for_playback, messagesScrollDown } =
+  const { talkList, currentTalkId, messages_for_playback } =
     useContext(TalkContext);
 
   const currentTalk =
@@ -29,13 +29,14 @@ export default function TalkMain() {
   );
 
   const scrollToBottom = () => {
-    const scrollHeight = ulRef.current.scrollHeight; // 최대 높이
-    ulRef.current.scrollTop = scrollHeight; // 스크롤바의 위치를 최대 높이로 변경
+    const scrollHeight = ulRef.current.scrollHeight;
+    ulRef.current.scrollTop = scrollHeight;
   };
 
   useEffect(() => {
+    // 메세지가 추가될때마다 <ul>의 스크롤을 맨 아래로 내린다.
     scrollToBottom();
-  }, [messagesScrollDown]);
+  }, [talkList]);
 
   return (
     <div className={styles["viewer"]}>
