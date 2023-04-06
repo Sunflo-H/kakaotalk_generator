@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { TalkContext } from "./TalkContext";
-import { SSTContext } from "./SSTContext";
+import { TTSContext } from "./TTSContext";
 
 export const TalkPlayerContext = createContext();
 
@@ -13,14 +13,14 @@ export function TalkPlayerProvider({ children }) {
     fillMessages_for_playback,
     resetMessages_for_playback,
   } = useContext(TalkContext);
-  const { SST } = useContext(SSTContext);
+  const { TTS } = useContext(TTSContext);
 
   const synth = window.speechSynthesis;
   const voices = synth.getVoices();
 
   const playTalk_oneMessage = (messages, count) => {
     synth.cancel();
-    const { select_voice_num, speak_pitch, speak_speed } = SST;
+    const { select_voice_num, speak_pitch, speak_speed } = TTS;
     const utterThis = new SpeechSynthesisUtterance(messages[count].text);
 
     utterThis.voice = voices[select_voice_num];

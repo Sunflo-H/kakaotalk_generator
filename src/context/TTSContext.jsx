@@ -1,10 +1,10 @@
 import { createContext, useContext, useState } from "react";
 import { MessageContext } from "./TalkContext";
 
-export const SSTContext = createContext();
+export const TTSContext = createContext();
 
-export function SSTProvider({ children }) {
-  const [SST, setSST] = useState({
+export function TTSProvider({ children }) {
+  const [TTS, setTTS] = useState({
     text: "",
     select_voice_num: 0,
     speak_pitch: 1,
@@ -17,7 +17,7 @@ export function SSTProvider({ children }) {
   const speak_test = () => {
     synth.cancel();
 
-    const { text, select_voice_num, speak_pitch, speak_speed } = SST;
+    const { text, select_voice_num, speak_pitch, speak_speed } = TTS;
 
     const utterThis = new SpeechSynthesisUtterance(text);
 
@@ -30,15 +30,15 @@ export function SSTProvider({ children }) {
   };
 
   return (
-    <SSTContext.Provider
+    <TTSContext.Provider
       value={{
-        SST,
-        setSST,
+        TTS,
+        setTTS,
         speak_test,
         voices,
       }}
     >
       {children}
-    </SSTContext.Provider>
+    </TTSContext.Provider>
   );
 }

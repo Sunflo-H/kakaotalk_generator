@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SSTContext } from "../../context/SSTContext";
+import { TTSContext } from "../../context/TTSContext";
 import styles from "../../css/VoiceOption.module.css";
 import { AiFillPlayCircle } from "react-icons/ai";
 
 export default function VoiceOption() {
-  const { SST, setSST, speak_test, voices } = useContext(SSTContext);
+  const { TTS, setTTS, speak_test, voices } = useContext(TTSContext);
 
   const handleTestBtnClick = (e) => {
     speak_test();
@@ -16,8 +16,8 @@ export default function VoiceOption() {
         <label htmlFor="select">음성 선택</label>
         <select
           id="select"
-          onChange={(e) => setSST({ ...SST, select_voice_num: e.target.value })}
-          value={SST.select_voice_num}
+          onChange={(e) => setTTS({ ...TTS, select_voice_num: e.target.value })}
+          value={TTS.select_voice_num}
         >
           {voices &&
             voices.map((voice, i) => (
@@ -29,7 +29,7 @@ export default function VoiceOption() {
       </div>
 
       <div>
-        <label htmlFor="speed">음성 속도 : {SST.speak_speed}</label>
+        <label htmlFor="speed">음성 속도 : {TTS.speak_speed}</label>
         <input
           type="range"
           min="0.5"
@@ -37,12 +37,12 @@ export default function VoiceOption() {
           defaultValue="1"
           step="0.1"
           id="speed"
-          onChange={(e) => setSST({ ...SST, speak_speed: e.target.value })}
+          onChange={(e) => setTTS({ ...TTS, speak_speed: e.target.value })}
         />
       </div>
 
       <div>
-        <label htmlFor="pitch">음성 톤 : {SST.speak_pitch}</label>
+        <label htmlFor="pitch">음성 톤 : {TTS.speak_pitch}</label>
         <input
           type="range"
           min="0.1"
@@ -50,7 +50,7 @@ export default function VoiceOption() {
           defaultValue="1"
           step="0.1"
           id="pitch"
-          onChange={(e) => setSST({ ...SST, speak_pitch: e.target.value })}
+          onChange={(e) => setTTS({ ...TTS, speak_pitch: e.target.value })}
         />
       </div>
 
@@ -60,8 +60,8 @@ export default function VoiceOption() {
           <input
             type="text"
             className="txt"
-            onChange={(e) => setSST({ ...SST, text: e.target.value })}
-            value={SST.text}
+            onChange={(e) => setTTS({ ...TTS, text: e.target.value })}
+            value={TTS.text}
           />
 
           <button onClick={handleTestBtnClick}>

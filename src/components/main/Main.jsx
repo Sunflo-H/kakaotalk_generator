@@ -5,7 +5,7 @@ import styles from "../../css/Main.module.css";
 import TalkGenerator from "./TalkGenerator";
 import { TalkProvider } from "../../context/TalkContext";
 import Category from "./Category";
-import { SSTProvider } from "../../context/SSTContext";
+import { TTSProvider } from "../../context/TTSContext";
 import Modal from "./Modal";
 import { TalkPlayerProvider } from "../../context/TalkPlayerContext";
 import StorageBox from "./storage/StorageBox";
@@ -17,7 +17,7 @@ export default function Main() {
     <main>
       <TalkProvider>
         <StorageBox />
-        <SSTProvider>
+        <TTSProvider>
           <TalkPlayerProvider>
             <View />
             <div className={styles["generator-and-voiceOption"]}>
@@ -29,7 +29,7 @@ export default function Main() {
             </div>
             <Modal />
           </TalkPlayerProvider>
-        </SSTProvider>
+        </TTSProvider>
       </TalkProvider>
     </main>
   );
