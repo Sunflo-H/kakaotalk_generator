@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Project : Kakaotalk Generator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Stack
+- HTML 
+- CSS 
+- React
+- Web Speech API
 
-## Available Scripts
+# 목표
+Youtube에서 웃긴 카톡 대화를 보여주는 shorts를 보고 영감을 받아 코드로 구현 해 보고 싶었습니다.
+1. 메세지를 입력하기.
+2. 메세지를 읽어주는 SST api를 이용해 메세지 재생하기.
 
-In the project directory, you can run:
+# 기능
+1. Talk 생성, 삭제
+2. Talk마다 Message를 입력, 수정, 삭제 (Text, Image)
+3. 재생할 음성의 선택, 조절 
+4. Talk의 재생
+5. localStorage에 저장
 
-### `npm start`
+# 스크린샷
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Full
+![image](https://user-images.githubusercontent.com/70611956/219977022-98551363-d477-448e-bdaa-9db03bdca533.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Talk-List
+![image](https://user-images.githubusercontent.com/70611956/219976947-9145d36a-77f4-453d-9b2b-2036688c83dd.png)
 
-### `npm test`
+## Messages
+![image](https://user-images.githubusercontent.com/70611956/219976983-e71a6122-bdb8-41ae-8ccf-35b31c25a343.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Message Input
+![image](https://user-images.githubusercontent.com/70611956/219976989-b748df8e-a269-4533-bfaf-b01d954f90eb.png)
 
-### `npm run build`
+## Voice option
+![image](https://user-images.githubusercontent.com/70611956/219976994-a73f134a-9fdb-47cb-ae37-5cf0b7192a73.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Play
+![image](https://user-images.githubusercontent.com/70611956/219977003-a1d6ba79-d4b8-42fc-9878-220bfd43fbeb.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 어려웠던점
+### 1. state 의 값에 배열과 객체들이 중첩되어 불변성을 지키면서 setState를 하는 것이 어려웠습니다.
+기본적인 state의 객체 추가, 업데이트, 삭제는 할 수 있었으나 객체와 배열이 중첩되는것 만으로 setState 코드의 난이도가 확 올라간 느낌이었습니다.
+Immer를 사용할까도 했지만 어렵더라도 한번 도전해 보고 싶었습니다.
+꼼꼼하게 console.log를 찍어 값을 확인하며 하다보니 처음에는 에러가 나서 아예 작동하지 않다가도 
+점점 state에 의도치 않은 값이라도 들어가게되며 결국에는 원하는 결과를 얻을수 있었습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Talk를 재생할때 현재 음성이 끝난 뒤에 다음 text가 재생되도록 하는 것이 어려웠습니다.
+'음성이 끝났다' 라는 조건을 찾기 위해 MDN을 찾아봤지만 찾지 못했습니다. (알고 난뒤 찾으니 찾았습니다..)
+그래서 SST에서 제공하는 음성 데이터를 직접 확인해보았고 여기서 end라는 이벤트를 찾을 수 있었습니다.
+메세지를 한줄씩 출력하고, 읽는 함수를 만들어서 end가 되었을때 다음 메세지를 읽도록 만들었습니다.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
