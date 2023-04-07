@@ -25,16 +25,22 @@ export function TalkProvider({ children }) {
         ]
   );
 
-  const { getId: getTalkId } = useNextId(() => {
+  /**
+   * 마지막 talkId를 찾아 다음에 올 talkId를 구한다.
+   */
+  const { id: talkId, setId: setTalkId } = useNextId(() => {
     const lastTalkId = talkList && talkList[talkList.length - 1]?.id;
+    console.log(lastTalkId);
     return lastTalkId !== undefined ? lastTalkId + 1 : 1;
   });
 
-  const { getId: getMessageId, setId: setMessageId } = useNextId(() => {
+  /**
+   * 현재 talk의 마지막 message Id를 찾아 다음에 올 message Id를 구한다.
+   */
+  const { id: messageId, setId: setMessageId } = useNextId(() => {
     const currentTalkMessages =
       talkList && talkList.find((talk) => talk.id === currentTalkId)?.messages;
-
-    return currentTalkMessages !== undefined
+    return currentTalkMessages && currentTalkMessages.length !== 0
       ? currentTalkMessages[currentTalkMessages.length - 1]?.id + 1
       : 1;
   });
@@ -55,16 +61,15 @@ export function TalkProvider({ children }) {
         talkList &&
         talkList.find((talk) => talk.id === currentTalkId)?.messages;
 
-      if (currentTalkMessages === undefined) return 1;
-      else
-        return currentTalkMessages.length !== 0
-          ? currentTalkMessages[currentTalkMessages.length - 1]?.id + 1
-          : 1;
+      return currentTalkMessages && currentTalkMessages.length !== 0
+        ? currentTalkMessages[currentTalkMessages.length - 1]?.id + 1
+        : 1;
     });
   }, [currentTalkId]);
 
   const createTalk = () => {
-    const id = getTalkId();
+    const id = talkId;
+    setTalkId(id + 1);
     setTalkList([
       ...talkList,
       { id: id, title: "New Talk", otherName: "상대방", messages: [] },
@@ -89,7 +94,8 @@ export function TalkProvider({ children }) {
 
   // * Message 관련 코드들
   const addMessage = (data, owner, type) => {
-    const id = getMessageId();
+    const id = messageId;
+    setMessageId(id + 1);
     let message =
       type === "text"
         ? { id: id, text: data, owner: owner, image: "" }
