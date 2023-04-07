@@ -30,7 +30,6 @@ export function TalkProvider({ children }) {
    */
   const { id: talkId, setId: setTalkId } = useNextId(() => {
     const lastTalkId = talkList && talkList[talkList.length - 1]?.id;
-    console.log(lastTalkId);
     return lastTalkId !== undefined ? lastTalkId + 1 : 1;
   });
 
@@ -207,9 +206,7 @@ export function TalkProvider({ children }) {
       value={{
         //* talk
         talkList,
-        setTalkList,
         currentTalkId,
-        setCurrentTalkId,
         createTalk,
         removeTalk,
         updateTalkTitle,

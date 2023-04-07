@@ -62,6 +62,7 @@ export default function VoiceOption() {
             className="txt"
             onChange={(e) => setTTS({ ...TTS, text: e.target.value })}
             value={TTS.text}
+            placeholder="테스트용 음성을 입력하세요"
           />
 
           <button onClick={handleTestBtnClick}>

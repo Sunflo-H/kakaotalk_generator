@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { MessageContext } from "./TalkContext";
 
 export const TTSContext = createContext();
@@ -14,7 +14,7 @@ export function TTSProvider({ children }) {
   const synth = window.speechSynthesis;
   const voices = synth.getVoices();
 
-  const speak_test = () => {
+  const speak_test = useCallback(() => {
     synth.cancel();
 
     const { text, select_voice_num, speak_pitch, speak_speed } = TTS;
@@ -27,7 +27,7 @@ export function TTSProvider({ children }) {
     utterThis.rate = speak_speed;
 
     synth.speak(utterThis);
-  };
+  });
 
   return (
     <TTSContext.Provider

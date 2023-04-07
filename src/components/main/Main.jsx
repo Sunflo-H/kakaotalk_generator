@@ -17,9 +17,11 @@ export default function Main() {
     <main>
       <TalkProvider>
         <StorageBox />
+
         <TTSProvider>
           <TalkPlayerProvider>
             <View />
+
             <div className={styles["generator-and-voiceOption"]}>
               <Category
                 categoryItem={categoryItem}
@@ -27,6 +29,7 @@ export default function Main() {
               />
               {categoryItem === "Talk" ? <TalkGenerator /> : <VoiceOption />}
             </div>
+
             <Modal />
           </TalkPlayerProvider>
         </TTSProvider>
