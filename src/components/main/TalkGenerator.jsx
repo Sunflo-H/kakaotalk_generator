@@ -24,17 +24,15 @@ export default function TalkGenerator() {
    * 4. 파일리더의 url에 파일정보를 담는다. readAsDataURL(file)
    * 5. 리더가 로드되면 reader.result를 img의 src로 입력
    */
-  const handleInputImageChange = (e) => {
-    // const owner = e.target.dataset.owner;
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     const owner = e.currentTarget.dataset.owner;
-    const image = images[owner];
     const type = "image";
 
     reader.readAsDataURL(file);
+
     reader.onloadend = () => {
-      // setImages({ ...images, [owner]: reader.result });
       addMessage(reader.result, owner, type);
       setImages({ ...images, [owner]: "" });
     };
@@ -48,14 +46,9 @@ export default function TalkGenerator() {
     setInputs({ ...inputs, [owner]: "" });
   };
 
-  const handleAddImageBtnClick = (e) => {
-    const owner = e.currentTarget.dataset.owner;
-    const image = images[owner];
-    const type = "image";
-    addMessage(image, owner, type);
-    setImages({ ...images, [owner]: "" });
-  };
-
+  /**
+   * 엔터 기능
+   */
   const handleKeyDown = (e) => {
     const owner = e.currentTarget.dataset.owner;
     const text = inputs[owner];
@@ -98,15 +91,8 @@ export default function TalkGenerator() {
               id="my_image"
               data-owner="mine"
               value={images.mine}
-              onChange={handleInputImageChange}
+              onChange={handleFileChange}
             />
-            {/* <button
-              className={styles.add}
-              data-owner="mine"
-              onClick={handleAddImageBtnClick}
-            >
-              <MdAddPhotoAlternate className={styles.icons} />
-            </button> */}
           </div>
         </div>
       </div>
@@ -140,15 +126,8 @@ export default function TalkGenerator() {
               id="other_image"
               data-owner="other"
               value={images.other}
-              onChange={handleInputImageChange}
+              onChange={handleFileChange}
             />
-            {/* <button
-              className={styles.add}
-              data-owner="other"
-              onClick={handleAddImageBtnClick}
-            >
-              <MdAddPhotoAlternate className={styles.icons} />
-            </button> */}
           </div>
         </div>
       </div>
