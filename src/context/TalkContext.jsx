@@ -53,7 +53,7 @@ export function TalkProvider({ children }) {
     localStorage.setItem("talkList", JSON.stringify(talkList));
   }, [talkList]);
 
-  // 활성화중인 Talk가 변경되었을때 Talk의 '마지막 메세지.id + 1' 을 다음 id로 사용
+  // 다른 Talk로 변경되었을때 Talk의 '마지막 메세지.id + 1' 을 다음 메세지 id로 사용
   useEffect(() => {
     setMessageId(() => {
       const currentTalkMessages =
@@ -77,6 +77,7 @@ export function TalkProvider({ children }) {
 
   const removeTalk = (id) => {
     setTalkList(talkList.filter((talk) => talk.id !== id));
+    setCurrentTalkId(null);
   };
 
   const updateTalkTitle = (id, title) => {

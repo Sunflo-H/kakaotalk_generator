@@ -10,10 +10,14 @@ export default function TalkListItem({ talk }) {
     useContext(TalkContext);
 
   const handleRemoveIconClick = (e) => {
+    e.stopPropagation();
+    console.log("삭제");
     removeTalk(id);
   };
 
-  const handleTalkItemClick = () => {
+  const handleTalkItemClick = (e) => {
+    console.log("클릭");
+
     activeTalk(id);
   };
 
@@ -54,3 +58,8 @@ export default function TalkListItem({ talk }) {
     </div>
   );
 }
+
+/**
+ * 이벤트 전파때문에 문제가 발생하는 것 같아
+ * onClick도 이벤트 전파가 된다?
+ */

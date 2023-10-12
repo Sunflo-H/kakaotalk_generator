@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import styles from "../../../css/storage/StorageBox.module.css";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import TalkListItem from "./TalkListItem";
 import { TalkContext } from "../../../context/TalkContext";
-import useNextId from "../../../hooks/useNextId";
 
 export default function StorageBox() {
   const { talkList, createTalk } = useContext(TalkContext);
