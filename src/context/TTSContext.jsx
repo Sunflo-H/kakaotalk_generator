@@ -21,7 +21,6 @@ export function TTSProvider({ children }) {
     const utterThis = new SpeechSynthesisUtterance(text);
 
     utterThis.voice = voices[select_voice_num];
-
     utterThis.pitch = speak_pitch;
     utterThis.rate = speak_speed;
 

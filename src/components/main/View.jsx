@@ -13,8 +13,6 @@ export default function View() {
     startTalkPlayer();
   };
 
-  console.log(currentTalkId);
-
   return (
     <div className={styles.view}>
       {currentTalkId !== null ? (
