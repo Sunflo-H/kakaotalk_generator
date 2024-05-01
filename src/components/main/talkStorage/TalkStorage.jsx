@@ -4,7 +4,7 @@ import { FiPlus, FiMinus } from "react-icons/fi";
 import TalkListItem from "./TalkListItem";
 import { TalkContext } from "../../../context/TalkContext";
 
-export default function StorageBox() {
+export default function TalkStorage() {
   const { talkList, createTalk } = useContext(TalkContext);
 
   const handleAddIconClick = () => {
