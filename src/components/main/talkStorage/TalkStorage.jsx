@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styles from "../../../css/storage/StorageBox.module.css";
-import { FiPlus, FiMinus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import TalkListItem from "./TalkListItem";
 import { TalkContext } from "../../../context/TalkContext";
 
