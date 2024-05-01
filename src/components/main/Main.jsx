@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import VoiceOption from "./VoiceOption";
 import View from "./View";
 import styles from "../../css/Main.module.css";
@@ -8,7 +8,7 @@ import Category from "./Category";
 import { TTSProvider } from "../../context/TTSContext";
 import Modal from "./Modal";
 import { TalkPlayerProvider } from "../../context/TalkPlayerContext";
-import StorageBox from "./storage/StorageBox";
+import TalkStorage from "./talkStorage/TalkStorage";
 
 export default function Main() {
   const [categoryItem, setCategoryItem] = useState("Talk");
@@ -16,12 +16,15 @@ export default function Main() {
   return (
     <main>
       <TalkProvider>
-        <StorageBox />
+        {/* left content - talk storage */}
+        <TalkStorage />
 
         <TTSProvider>
           <TalkPlayerProvider>
+            {/* main content - kakao talk */}
             <View />
 
+            {/* right content - voice option */}
             <div className={styles["generator-and-voiceOption"]}>
               <Category
                 categoryItem={categoryItem}
