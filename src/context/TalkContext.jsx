@@ -1,15 +1,11 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import useNextId from "../hooks/useNextId";
 
 export const TalkContext = createContext();
 
+/**
+ *
+ */
 export function TalkProvider({ children }) {
   const [currentTalkId, setCurrentTalkId] = useState(1);
   const [talkList, setTalkList] = useState(
@@ -28,21 +24,12 @@ export function TalkProvider({ children }) {
   /**
    * 마지막 talkId를 찾아 다음에 올 talkId를 구한다.
    */
-  const { id: talkId, setId: setTalkId } = useNextId(() => {
+  const { id: talkId, setId: setTalkId } = useNextId(getNextTalkId());
+
+  function getNextTalkId() {
     const lastTalkId = talkList && talkList[talkList.length - 1]?.id;
     return lastTalkId !== undefined ? lastTalkId + 1 : 1;
-  });
-
-  /**
-   * 현재 talk의 마지막 message Id를 찾아 다음에 올 message Id를 구한다.
-   */
-  const { id: messageId, setId: setMessageId } = useNextId(() => {
-    const currentTalkMessages =
-      talkList && talkList.find((talk) => talk.id === currentTalkId)?.messages;
-    return currentTalkMessages && currentTalkMessages.length !== 0
-      ? currentTalkMessages[currentTalkMessages.length - 1]?.id + 1
-      : 1;
-  });
+  }
 
   // 재생용 메세지 배열
   const [messages_for_playback, setMessages_for_playback] = useState("");
@@ -67,12 +54,14 @@ export function TalkProvider({ children }) {
   }, [currentTalkId]);
 
   const createTalk = () => {
-    const id = talkId;
-    setTalkId(id + 1);
-    setTalkList([
-      ...talkList,
-      { id: id, title: "New Talk", otherName: "상대방", messages: [] },
-    ]);
+    const newTalk = {
+      id: talkId,
+      title: "New Talk",
+      otherName: "상대방",
+      messages: [],
+    };
+    setTalkId(talkId + 1);
+    setTalkList([...talkList, newTalk]);
   };
 
   const removeTalk = (id) => {
@@ -93,20 +82,32 @@ export function TalkProvider({ children }) {
   };
 
   // * Message 관련 코드들
+  /**
+   * 현재 talk의 마지막 message Id를 찾아 다음에 올 message Id를 구한다.
+   */
+  const { id: messageId, setId: setMessageId } = useNextId(getNextMessageId());
+
+  function getNextMessageId() {
+    const currentTalkMessages =
+      talkList && talkList.find((talk) => talk.id === currentTalkId)?.messages;
+    return currentTalkMessages && currentTalkMessages.length !== 0
+      ? currentTalkMessages[currentTalkMessages.length - 1]?.id + 1
+      : 1;
+  }
+
   const addMessage = (data, owner, type) => {
-    const id = messageId;
-    setMessageId(id + 1);
-    let message =
+    setMessageId(messageId + 1);
+    let newMessage =
       type === "text"
-        ? { id: id, text: data, owner: owner, image: "" }
-        : { id: id, text: "", owner: owner, image: data };
+        ? { id: messageId, text: data, owner: owner, image: "" }
+        : { id: messageId, text: "", owner: owner, image: data };
 
     setTalkList(
       talkList.map((talk) =>
         talk.id === currentTalkId
           ? {
               ...talk,
-              messages: [...talk.messages, message],
+              messages: [...talk.messages, newMessage],
             }
           : talk
       )
@@ -173,9 +174,6 @@ export function TalkProvider({ children }) {
 
   // * drag and drop 관련 코드
   /**
-   *
-   * @param {*} dropableSpace
-   *
    * drag and drop으로 바뀐 위치정보를 talkList에 저장한다.
    */
   const setMessagesPositionToTalkList = useCallback((dropableSpace) => {
