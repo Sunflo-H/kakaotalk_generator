@@ -6,7 +6,7 @@ import TalkGenerator from "./TalkGenerator";
 import { TalkProvider } from "../../context/TalkContext";
 import Category from "./Category";
 import { TTSProvider } from "../../context/TTSContext";
-import Modal from "./Modal";
+import TalkPlayer from "./TalkPlayer";
 import { TalkPlayerProvider } from "../../context/TalkPlayerContext";
 import TalkStorage from "./talkStorage/TalkStorage";
 
@@ -33,7 +33,7 @@ export default function Main() {
               {categoryItem === "Talk" ? <TalkGenerator /> : <VoiceOption />}
             </div>
 
-            <Modal />
+            <TalkPlayer />
           </TalkPlayerProvider>
         </TTSProvider>
       </TalkProvider>

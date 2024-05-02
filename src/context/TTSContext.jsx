@@ -9,7 +9,6 @@ export function TTSProvider({ children }) {
     speak_pitch: 1,
     speak_speed: 1,
   });
-
   const synth = window.speechSynthesis;
   const voices = synth.getVoices();
 
@@ -33,7 +32,8 @@ export function TTSProvider({ children }) {
         TTS,
         setTTS,
         speak_test,
-        voices,
+        //!없어도 되는 코드 같습니다.
+        // voices,
       }}
     >
       {children}

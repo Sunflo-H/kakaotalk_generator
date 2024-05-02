@@ -31,9 +31,6 @@ export function TalkProvider({ children }) {
     return lastTalkId !== undefined ? lastTalkId + 1 : 1;
   }
 
-  // 재생용 메세지 배열
-  const [messages_for_playback, setMessages_for_playback] = useState("");
-
   // * Talk 관련 코드들
   // talkList의 값이 변경될때마다 localStorage에 저장한다.
   useEffect(() => {
@@ -160,6 +157,9 @@ export function TalkProvider({ children }) {
   };
 
   // * 재생할 Message 관련 코드들
+  // 재생용 메세지 배열
+  const [messages_for_playback, setMessages_for_playback] = useState("");
+
   const fillMessages_for_playback = (message) => {
     setMessages_for_playback((prev) => [...prev, message]);
   };
@@ -168,7 +168,7 @@ export function TalkProvider({ children }) {
     setMessages_for_playback("");
   };
 
-  const getCurrentTalkMessages = () => {
+  const getActiveTalkMessages = () => {
     return talkList.find((talk) => talk.id === currentTalkId).messages;
   };
 
@@ -221,7 +221,7 @@ export function TalkProvider({ children }) {
         messages_for_playback,
         fillMessages_for_playback,
         resetMessages_for_playback,
-        getCurrentTalkMessages,
+        getActiveTalkMessages,
 
         //* drag and drop
         setMessagesPositionToTalkList,
