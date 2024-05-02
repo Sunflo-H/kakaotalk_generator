@@ -12,35 +12,30 @@ export function TalkPlayerProvider({ children }) {
     resetMessages_for_playback,
   } = useContext(TalkContext);
   const { TTS } = useContext(TTSContext);
-
   const synth = window.speechSynthesis;
   const voices = synth.getVoices();
 
-  const playTalk_oneMessage = useCallback((messages, count) => {
+  /**
+   * 한개의 메세지와 카운트를 받아 음성으로 읽는 함수
+   */
+  const speakMessages = useCallback((messages, count) => {
     synth.cancel();
+
     const { select_voice_num, speak_pitch, speak_speed } = TTS;
     const utterThis = new SpeechSynthesisUtterance(messages[count].text);
 
     utterThis.voice = voices[select_voice_num];
     utterThis.pitch = speak_pitch;
     utterThis.rate = speak_speed;
-    console.log("전");
-    // 첫 메세지면 0.5s의 텀을 준다.
-    if (count === 0) {
-      setTimeout(() => {
-        fillMessages_for_playback(messages[count]);
-        synth.speak(utterThis);
-      }, 500);
-    } else {
-      fillMessages_for_playback(messages[count]);
-      synth.speak(utterThis);
-    }
-    console.log("후");
 
-    // 음성이 종료되면 다음 message를 가지고 이 함수를 다시 실행한다.
-    utterThis.addEventListener("end", (event) => {
+    fillMessages_for_playback(messages[count]);
+    synth.speak(utterThis);
+
+    // 음성이 종료(end)되면 다음 message를 가지고 이 함수를 다시 실행한다.
+    // 마지막 메세지가 될 때까지!
+    utterThis.addEventListener("end", () => {
       count++;
-      if (messages.length !== count) playTalk_oneMessage(messages, count);
+      if (messages.length !== count) speakMessages(messages, count);
     });
   });
 
@@ -49,7 +44,7 @@ export function TalkPlayerProvider({ children }) {
 
     const count = 0;
     const messages = getCurrentTalkMessages();
-    playTalk_oneMessage(messages, count);
+    speakMessages(messages, count);
   });
 
   const stopTalkPlayer = () => {
