@@ -3,7 +3,7 @@ import { TalkPlayerContext } from "../../context/TalkPlayerContext";
 import styles from "../../css/Modal.module.css";
 import Talk from "./talk/Talk";
 
-export default function Modal() {
+export default function TalkPlayer() {
   const { isPlay, stopTalkPlayer } = useContext(TalkPlayerContext);
 
   const closeBtnClick = () => {
