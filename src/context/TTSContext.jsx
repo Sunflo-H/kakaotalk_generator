@@ -32,8 +32,7 @@ export function TTSProvider({ children }) {
         TTS,
         setTTS,
         speak_test,
-        //!없어도 되는 코드 같습니다.
-        // voices,
+        voices,
       }}
     >
       {children}
